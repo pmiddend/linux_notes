@@ -1,4 +1,15 @@
 * mutt
+** Rendering HTML mails and embedding them
+Add the following to your =~/.mailcap=:
+#+BEGIN_SRC
+text/html;links -dump %s; nametemplate=%s.html; copiousoutput
+#+END_SRC
+The =nametemplate= file is a hint for the viewing program as to which
+extension is added to the temporary file name (if the viewer depends
+on evaluating extensions, which might be the case with links).
+
+=copiousoutput= hints that the output might be large and requires some
+sort of paging mechanism.
 ** Sending mail with prompt for password
 - There are two ways to send mail in mutt: By using an external tool
   and the sendmail directive in =~/.muttrc=:
@@ -14,3 +25,91 @@ set sendmail="/usr/bin/msmtp"
 set smtp_url="smtp://loginname@smtp.someserver.org:587/"
 #+END_SRC
 - You can specify a password with =smtp_pass=. If you don't, you will be prompted.
+* xdg-open
+ - Two ways to generically open files in Linux:
+   - mailcap (the "old" way, still used by mutt)
+   - xdg-open (the new way)
+ - The old way can be mapped to the new way, just add the following
+   to your =~/.mailcap= (or even =/etc/mailcap=; in fedora, this
+   already contains some lines to map to xdg-open):
+#+BEGIN_SRC
+*/*; xdg-open %s
+#+END_SRC
+** How xdg-open works
+ - Checks the =BROWSER= environment variable. If it's not given and we
+   have no =DISPLAY=, try links2, elinks, links, lynx and w3m in that
+   order. If we have =DISPLAY=, try firefox, seamokey, mozilla,
+   epiphany, konqueror, chromium-browser and google-chrome in that order.
+ - Checks for the =DE= environment variable and other things (see the =xdg-mime=
+   command below on how this is done).
+ - If "kde"
+   - If =KDE_SESSION_VERSION= is given, use =kde-open= or =kde-open5=
+     to open the file.
+   - Otherwise, use =kfmclient exec $file= and afterwards
+     =kfmclient_fix_exit_code $?= (?)
+ - If "gnome"
+   - Use =gvfs-open= if that exists
+   - Otherwise, use =gnome-open=
+ - If not given...
+   - calls a generic open function.
+   - if available, falls back to =run-mailcap --action=view $file=, so using mailcap.
+   - if available, falls back to =mimeopen -L -n $file=.
+   - otherwise uses =xdg-mime query filetype $file= with a =sed= command to
+     erase everything after the first semicolon to find out the file
+     type. How =xdg-mime query filetype= works is described below:
+     - Checks =XDG_CURRENT_DESKTOP= for the current desktop
+       environment. If the string is empty
+       - ...uses "kde" if =KDE_FULL_SESSION= is set
+       - ...uses "gnome" if =GNOME_DESKTOP_SESSION_ID= is set /or/ if
+         some strange dbus query returns =org.gnome.SessionManager=
+       - ...uses "mate" if =MATE_DESKTOP_SESSION_ID= is set
+       - ...uses "xfce" if some =xprop= command returns the right thing
+       - ...uses "enlightenment" if =DESKTOP= contains Enlightenment
+     - Checks =DESKTOP_SESSION= for the DE.
+     - Checks =uname= to check for darwin.
+     - Checks the existence of =gnome-default-application-properties=
+       and if it doesn't exist, sets the DE to "gnome3".
+     - Sets the DE to "generic" if the checks above failed and we have
+       =/usr/bin/file= available (yes, that path is hard-coded).
+     - The mime check is different for each platform
+       - KDE
+         - Uses =kmimetypefinder= (or =kmimetypefinder5=) if
+           =KDE_SESSION_VERSION= is set to 4 or 5.
+         - Otherwise uses =file= with some cutting at the end
+       - GNOME
+         - Uses =gvfs-info= if it exists
+         - Otherwise uses =gnomevfs-info=
+         - Otherwise use the generic version
+       - Generic
+         - Call =mimetype --brief --dereference $file= if =mimetype= exists
+         - Otherwise, call =/usr/bin/file --brief --dereference --mime-type=
+   - uses =xdg-mime query default $filetype= (from the command before)
+     to check for the corresponding application. how that works is
+     described below:
+     - KDE
+       - Use either =ktraderclient= or =ktradertest= to check for the application
+       - If both are not available, use the generic method
+     - Generic
+       - Check =$HOME/.local/share/applications= or
+         =$XDG_DATA_HOME/applications= for =mimeapps.list=.
+       - Use some clever awk script to find the desktop entry for the
+         mime type.
+       - If no entry found, check =/usr/local/share/applications= and
+         =/usr/share/applications= for =defaults.list= and =mimeinfo.cache=.
+       - If no entry found, check all files ending in =.desktop=
+         manually for the filetype.
+   - Tries to find the resulting desktop file (if one was found) in
+     either =XDG_DATA_HOME/applications= or
+     =$HOME/.local/share/applications= or
+     =/usr/local/share/applications= or =/usr/share/applications=
+   - For each of the above directories (call them =$dir=), first the
+     file =$dir/$desktopfile= is searched. If that doesn't exist, we
+     replace each dash in the desktop file name by a slash and
+     research under =$dir=.
+   - Inside the found =.desktop= file, search for the line with =Exec=
+     at the beginning. Replace % followed by either f, F, u or U with
+     the file name given. If no such placeholder exists, the filename
+     is just appended to the command to run. Also, replace =%i= with
+     the line starting with =Icon=, replace =%c= by the line starting
+     with =Name=.
+   - If the command is executable, try to run the application.
