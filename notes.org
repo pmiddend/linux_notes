@@ -1,3 +1,8 @@
+* Power management
+** hibernate when lid is closed
+Open =/etc/systemd/logind.conf= and edit the line beginning with
+=HandleLidSwitch= to, for example, =hibernate= (=ignore= does nothing
+when the lid is closed). Then restart the service via =systemctl restart systemd-logind=.
 * mutt
 ** Rendering HTML mails and embedding them
 Add the following to your =~/.mailcap=:
