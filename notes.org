@@ -2,15 +2,15 @@
 ** Sending mail with prompt for password
 - There are two ways to send mail in mutt: By using an external tool
   and the sendmail directive in =~/.muttrc=:
-  #+BEGIN_SRC
+#+BEGIN_SRC
 set sendmail="/usr/bin/msmtp"
-  #+END_SRC
+#+END_SRC
 - Then configure msmtp in a separate file. Problem: If you do not
   specify a password in the configuration file, mutt will /not/ prompt
   you (it's not a bug, it's a feature). So you have to specify the
   password somehow.
 - /Or/ use SMTP from mutt directly, with the =smtp_url= directive in =~/.muttrc=:
-  #+BEGIN_SRC
+#+BEGIN_SRC
 set smtp_url="smtp://loginname@smtp.someserver.org:587/"
-  #+END_SRC
+#+END_SRC
 - You can specify a password with =smtp_pass=. If you don't, you will be prompted.
