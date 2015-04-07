@@ -10,7 +10,7 @@ import           System.IO                    (Handle, hPutStrLn)
 import           XMonad.Core                  (Layout, ManageHook, WorkspaceId,
                                                X, XConfig (..), io,
                                                spawn, runQuery)
-import XMonad.Hooks.ManageHelpers(doFullFloat)
+import XMonad.Hooks.ManageHelpers(doFullFloat,isFullscreen)
 import           XMonad.Hooks.DynamicLog      (PP (..), dynamicLogWithPP,
                                                shorten, wrap, xmobarColor)
 import           XMonad.Hooks.EwmhDesktops    (ewmh)
@@ -71,12 +71,9 @@ myStartupHook = return ()
 
 -- manageDocks wegen xmobar
 myManageHook :: ManageHook
-{-
 myManageHook = composeAll
-                [ className =? "MPlayer"        --> doFloat
-                , className =? "Gimp"           --> doFloat ]
--}
-myManageHook = mempty
+                [ isFullscreen --> doFullFloat ]
+--myManageHook = mempty
 
 myHandleEventHook :: Event -> X All
 myHandleEventHook _ = return (All True)
