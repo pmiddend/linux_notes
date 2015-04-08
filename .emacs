@@ -79,3 +79,11 @@
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 (projectile-global-mode)
+
+(custom-set-variables 
+ '(x-select-enable-primary t))
+
+; bugfix
+; siehe http://emacs.stackexchange.com/questions/2107/run-application-in-cwd-on-remote-host-from-within-eshell
+(defadvice eshell-gather-process-output (before absolute-cmd (command args) act)
+  (setq command (file-truename command)))
