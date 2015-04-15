@@ -41,6 +41,8 @@
 
 ; automatisch hinzugefügt (setzt zenburn als "safe")
 (custom-set-variables
+ '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-generic-program "/usr/bin/google-chrome")
  '(custom-safe-themes
    (quote
     ("9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" default))))
