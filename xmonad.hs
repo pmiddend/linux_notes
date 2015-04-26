@@ -35,8 +35,11 @@ import XMonad.Util.Scratchpad(scratchpadSpawnActionTerminal,scratchpadManageHook
 myBorderWidth :: Dimension
 myBorderWidth = 1
 
+browserWorkspaceId = "6:browser"
+mailWorkspaceId = "7:mail"
+
 myWorkspaces :: [WorkspaceId]
-myWorkspaces = map show [1 .. 9 :: Int]
+myWorkspaces = ["1","2","3","4","5",browserWorkspaceId,mailWorkspaceId,"8:irc","9:todo"]
 
 -- avoidStruts wegen xmobar
 myLayout = smartBorders ( avoidStruts ( tiled ||| Mirror tiled ||| Full ) )
@@ -101,14 +104,18 @@ myKeys conf = mkKeymap conf $
   , ("M-S-j",                                                    windows W.swapDown)
   , ("M-S-k",                                                    windows W.swapUp)
   , ("M-h",                                                      sendMessage Shrink)
+  , ("M-b",                                                      windows (W.greedyView browserWorkspaceId))
+  , ("M-m",                                                      windows (W.greedyView mailWorkspaceId))
   , ("M-l",                                                      sendMessage Expand)
   , ("M-f",                                                      withFocused fullFloat)
   , ("M-t",                                                      withFocused $ windows . W.sink)
   , ("M-S-q",                                                    io exitSuccess)
   , ("M-S-r",                                                    spawn "xmonad --recompile && xmonad --restart")
   ] ++
-  [ ("M-" ++ k,windows ( W.greedyView k )) | k <- workspaces conf ] ++
-  [ ("M-S-" ++ k,windows ( W.shift k )) | k <- workspaces conf ]
+  [ ("M-" ++ stripSuffix k,windows ( W.greedyView k )) | k <- workspaces conf ] ++
+  [ ("M-S-" ++ stripSuffix k,windows ( W.shift k )) | k <- workspaces conf ]
+
+stripSuffix = fst . break (== ':')
 
 defaultPP :: Handle -> PP
 defaultPP statusHandle =
@@ -155,6 +162,7 @@ wrapXmobar h c = c
 fixJava :: XConfig l -> XConfig l
 fixJava c = c
   { startupHook = startupHook c <> setWMName "LG3D"
+  , logHook = logHook c >> setWMName "LG3D"
   }
 
 addScratchpad :: XConfig l -> XConfig l
@@ -164,5 +172,5 @@ addScratchpad c = c
 
 main :: IO ()
 main = do
-  h <- spawnPipe "xmobar"
-  xmonad ( addScratchpad . fixJava . ewmh . wrapXmobar h $ myConfig )
+  h <- spawnPipe "/home/philipp/.cabal/bin/xmobar"
+  xmonad ( addScratchpad . {-fixJava . ewmh . -}wrapXmobar h $ myConfig )

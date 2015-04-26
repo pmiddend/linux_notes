@@ -23,6 +23,9 @@
  "<SPC>" 'ace-jump-mode)
 (evil-mode 1)
 (evil-escape-mode)
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+(add-hook 'haskell-mode-hook (lambda () (push '(?( . ("(" . ")")) evil-surround-pairs-alist)))
 ; evil end
 
 ; ido begin
@@ -41,13 +44,29 @@
 
 ; automatisch hinzugefügt (setzt zenburn als "safe")
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "/usr/bin/google-chrome")
+ '(company-ghc-show-info t)
+ '(org-icalendar-include-todo (quote all))
+ '(org-agenda-start-on-weekday nil)
+ '(org-icalendar-use-scheduled (quote (event-if-todo todo-start))))
  '(custom-safe-themes
    (quote
     ("9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" default))))
-(custom-set-faces)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 ; automatisch hinzugefügt Ende
+
+(setq org-todo-keyword-faces
+           '(("WAIT" . "yellow")))
 
 ; haskell begin
 ; Einrückung
@@ -81,3 +100,24 @@
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 (projectile-global-mode)
+
+(custom-set-variables 
+ '(x-select-enable-primary t))
+(winner-mode 1)
+
+; bugfix
+; siehe http://emacs.stackexchange.com/questions/2107/run-application-in-cwd-on-remote-host-from-within-eshell
+(defadvice eshell-gather-process-output (before absolute-cmd (command args) act)
+  (setq command (file-truename command)))
+
+(require 'ox-publish)
+
+(setq org-publish-project-alist '(
+ ("notes-html"
+  :base-directory "~/notes/"
+  :base-extension "org"
+  :recursive t
+  :publishing-function org-html-publish-to-html
+  :publishing-directory "~/notes/published_html"
+  )
+ ))
