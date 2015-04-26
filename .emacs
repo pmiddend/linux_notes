@@ -25,7 +25,7 @@
 (evil-escape-mode)
 (require 'evil-surround)
 (global-evil-surround-mode 1)
-(add-hook 'haskell-mode-hook (lambda () (push '(?( . ("(" . ")")) evil-surround-pairs-alist)))
+;(add-hook 'haskell-mode-hook (lambda () (push '(?( . ("(" . ")")) evil-surround-pairs-alist))))
 ; evil end
 
 ; ido begin
@@ -51,12 +51,28 @@
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "/usr/bin/google-chrome")
  '(company-ghc-show-info t)
- '(org-icalendar-include-todo (quote all))
- '(org-agenda-start-on-weekday nil)
- '(org-icalendar-use-scheduled (quote (event-if-todo todo-start))))
  '(custom-safe-themes
    (quote
-    ("9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" default))))
+    ("9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" default)))
+ '(evil-surround-pairs-alist
+   (quote
+    ((40 "(" . ")")
+     (91 "[" . "]")
+     (123 "{ " . " }")
+     (41 "(" . ")")
+     (93 "[" . "]")
+     (125 "{" . "}")
+     (35 "#{" . "}")
+     (98 "(" . ")")
+     (66 "{" . "}")
+     (62 "<" . ">")
+     (116 . evil-surround-read-tag)
+     (60 . evil-surround-read-tag)
+     (102 . evil-surround-function))))
+ '(org-agenda-start-on-weekday nil)
+ '(org-icalendar-include-todo (quote all))
+ '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
+ '(x-select-enable-primary t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -92,7 +108,7 @@
 (require 'company)
 (add-hook 'haskell-mode-hook 'company-mode)
 (add-to-list 'company-backends 'company-ghc)
-(custom-set-variables '(company-ghc-show-info t))
+
 ; Completion mit company end
 					; haskell end
 
@@ -101,8 +117,7 @@
 
 (projectile-global-mode)
 
-(custom-set-variables 
- '(x-select-enable-primary t))
+
 (winner-mode 1)
 
 ; bugfix
