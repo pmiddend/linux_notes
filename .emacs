@@ -72,6 +72,7 @@
  '(org-agenda-start-on-weekday nil)
  '(org-icalendar-include-todo (quote all))
  '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
+ '(org-log-done (quote time))
  '(x-select-enable-primary t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
