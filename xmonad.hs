@@ -172,5 +172,5 @@ addScratchpad c = c
 
 main :: IO ()
 main = do
-  h <- spawnPipe "/home/philipp/.cabal/bin/xmobar"
+  h <- spawnPipe "/home/philipp/.nix-profile/bin/xmobar"
   xmonad ( addScratchpad . {-fixJava . ewmh . -}wrapXmobar h $ myConfig )

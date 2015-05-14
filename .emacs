@@ -69,10 +69,17 @@
      (116 . evil-surround-read-tag)
      (60 . evil-surround-read-tag)
      (102 . evil-surround-function))))
+ '(org-agenda-files
+   (quote
+    ("~/notes/sncf.org" "~/notes/loadbalancer.org" "~/notes/dds.org" "~/notes/todo.org")))
  '(org-agenda-start-on-weekday nil)
+ '(org-habit-show-habits-only-for-today nil)
  '(org-icalendar-include-todo (quote all))
  '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
  '(org-log-done (quote time))
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(x-select-enable-primary t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -81,6 +88,21 @@
  ;; If there is more than one, they won't work right.
  )
 ; automatisch hinzugefügt Ende
+(defun get-string-from-file (filePath)
+  "Return filePath's file content."
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (buffer-string)))
+
+(setq org-feed-alist
+      `(("Remember The Milk"
+         ,(get-string-from-file "~/notes/emacs_rtm_feed")
+         "/tmp/rtm.org"
+         "Remember The Milk"
+         :parse-feed org-feed-parse-atom-feed
+         :parse-entry org-feed-parse-RTM-entry
+         :template "* TODO %title\n%a\n "
+         )))
 
 (setq org-todo-keyword-faces
            '(("WAIT" . "yellow")))
@@ -132,8 +154,64 @@
  ("notes-html"
   :base-directory "~/notes/"
   :base-extension "org"
-  :recursive t
+  :recursive nil
   :publishing-function org-html-publish-to-html
   :publishing-directory "~/notes/published_html"
   )
  ))
+
+
+(defun org-feed-parse-RTM-entry (entry)
+  "Parse the `:item-full-text' as a sexp and create new properties."
+  (let ((xml (car (read-from-string (plist-get entry :item-full-text)))))
+    ;; Get first <link href='foo'/>.
+    (setq entry (plist-put entry :link
+                           (xml-get-attribute
+                            (car (xml-get-children xml 'link))
+                            'href)))
+    ;; Add <title/> as :title.
+    (setq entry (plist-put entry :title
+                           (xml-substitute-special
+                            (car (xml-node-children
+                                  (car (xml-get-children xml 'title)))))))
+    ;; look for some other information that's in the content of the entry
+    ;; the structure looks something like:
+    ;; <content><div>   <div item> <span itemname></span><span itemvalue></span></div>...
+;    (let* ((content (car (xml-get-children xml 'content)))
+;           (main  (car (xml-get-children content 'div)))
+;           (items (xml-get-children main 'div)))
+;      (when items
+;        ; iterate over all items and check for certain classes
+;        (while items
+;          (setq item (car items))
+;          ; get the second span entry
+;          (setq valuesub (car (cdr (xml-node-children item))))
+;             (cond
+;              ((string= (xml-get-attribute item 'class) "rtm_due")
+;               (setq entry (plist-put entry :due (car (xml-node-children valuesub))))
+;               (setq mydate (car (xml-node-children valuesub)))
+;               (if (string= mydate "never")
+;                   nil
+;                 (progn
+;                  (string-match "^\\([a-zA-Z]*\\) \\([0-9]*\\) \\([a-zA-Z]*\\) \\([0-9]*\\)$" mydate)
+;                  (setq mydate (concat "20" (match-string 4 mydate) " " (match-string 3 mydate) " " (match-string 2 mydate) " 00:00:01"))
+;                  (setq mydate (parse-time-string mydate))
+;                  (setq mydate (apply #'encode-time mydate))
+;                  (setq mydate (format-time-string (car org-time-stamp-formats) mydate))
+;                  (setq entry (plist-put entry :dueorgformat mydate)))))
+;              ((string= (xml-get-attribute item 'class) "rtm_tags")
+;               (setq entry (plist-put entry :tags (car (xml-node-children valuesub)))))
+;              ((string= (xml-get-attribute item 'class) "rtm_time_estimate")
+;               (setq entry (plist-put entry :timeestimate (car (xml-node-children valuesub)))))
+;              ((string= (xml-get-attribute item 'class) "rtm_priority")
+;               (setq entry (plist-put entry :priority (car (xml-node-children valuesub)))))
+;              ((string= (xml-get-attribute item 'class) "rtm_location")
+;               (setq entry (plist-put entry :location (car (xml-node-children valuesub))))))
+;          (setq items (cdr items))
+;          )))
+    entry))
+
+(setq backup-directory-alist
+          `((".*" . ,temporary-file-directory)))
+    (setq auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))

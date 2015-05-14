@@ -6,8 +6,8 @@ cabal.mkDerivation (self: {
   inherit hsSDL2;
   src = fetchgit {
     url = https://github.com/pmiddend/wrench;
-    rev = "2899cfadacddff63a56792c8eef2948364b7b63f";
-    sha256 = "1adxh552fbap6mj6rql4336y0n4839fc4vl26pkzdr7p554wf16l";
+    rev = "e6d3770e093cba606b5d26f6693b998566a746f5";
+    sha256 = "1i01hhi23vxhm4gjj2qkxxvxwlmxw20kwlx652na3v562nsqk8nw";
   };
   pname = "wrench";
   version = "0.1.0.0";
