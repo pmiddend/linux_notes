@@ -14,6 +14,8 @@
 ; Bars deaktivieren end
 
 ; evil begin
+; ffap fuer C-w C-f
+(require 'ffap)
 (require 'evil)
 (require 'evil-leader)
 (global-evil-leader-mode)
@@ -22,6 +24,8 @@
  "fs" 'save-buffer
  "<SPC>" 'ace-jump-mode)
 (evil-mode 1)
+; Wenn das weg ist, geht ggf. evil-escape-mode nicht mehr, siehe https://github.com/syl20bnr/evil-escape/issues/26
+(hl-line-mode)
 (evil-escape-mode)
 (require 'evil-surround)
 (global-evil-surround-mode 1)
@@ -32,8 +36,10 @@
 (require 'ido)
 (require 'flx-ido)
 (ido-mode t)
+; ido auch in describe-function z.B.
+(ido-ubiquitous-mode 1)
 (ido-everywhere t)
-(flx-ido-mode t)
+;(flx-ido-mode t)
 (setq ido-use-faces nil)
 (setq ido-enable-flex-matching t)
 ; ido end
@@ -109,10 +115,11 @@
 
 ; haskell begin
 ; Einrückung
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 ;(add-hook 'haskell-mode-hook 'structured-haskell-mode)
 ; F8 auf "zu Imports gehen"
-(eval-after-load 'haskell-mode '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
+;(eval-after-load 'haskell-mode '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
 
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
@@ -122,6 +129,7 @@
 ; 
 
 ; ghc-mod begin
+;(add-to-list 'load-path "~/.cabal/share/x86_64-linux-ghc-7.8.4/ghc-mod-5.2.1.2/")
 (autoload 'ghc-init "ghc" nil t)
 (autoload 'ghc-debug "ghc" nil t)
 (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
@@ -129,6 +137,7 @@
 
 ; Completion mit company begin
 (require 'company)
+;(add-to-list 'load-path "~/.emacs.d/company-ghc")
 (add-hook 'haskell-mode-hook 'company-mode)
 (add-to-list 'company-backends 'company-ghc)
 
@@ -211,7 +220,22 @@
 ;          )))
     entry))
 
+(setq org-default-notes-file (concat org-directory "/notes/todo.org"))
+     (define-key global-map "\C-cc" 'org-capture)
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/notes/todo.org" "Anderes")
+             "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n  %i")
+        ("j" "Todo" entry (file+headline "~/notes/todo.org" "Jumpie")
+             "* TODO %?\n  %i")
+        ))
+
 (setq backup-directory-alist
           `((".*" . ,temporary-file-directory)))
     (setq auto-save-file-name-transforms
           `((".*" ,temporary-file-directory t)))
+
+; Speichert die Minibuffer-History
+(savehist-mode 1)
+
+; Speichert Desktops
+(desktop-save-mode 1)
