@@ -129,7 +129,7 @@
 ; 
 
 ; ghc-mod begin
-;(add-to-list 'load-path "~/.cabal/share/x86_64-linux-ghc-7.8.4/ghc-mod-5.2.1.2/")
+(add-to-list 'load-path "~/.cabal/share/x86_64-linux-ghc-7.8.4/ghc-mod-5.2.1.2/")
 (autoload 'ghc-init "ghc" nil t)
 (autoload 'ghc-debug "ghc" nil t)
 (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
