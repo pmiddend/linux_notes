@@ -75,9 +75,7 @@
      (116 . evil-surround-read-tag)
      (60 . evil-surround-read-tag)
      (102 . evil-surround-function))))
- '(org-agenda-files
-   (quote
-    ("~/notes/sncf.org" "~/notes/loadbalancer.org" "~/notes/dds.org" "~/notes/todo.org")))
+ '(org-agenda-files (quote ("~/notes/todo.org")))
  '(org-agenda-start-on-weekday nil)
  '(org-habit-show-habits-only-for-today nil)
  '(org-icalendar-include-todo (quote all))
@@ -223,7 +221,7 @@
 (setq org-default-notes-file (concat org-directory "/notes/todo.org"))
      (define-key global-map "\C-cc" 'org-capture)
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/notes/todo.org" "Anderes")
+      '(("t" "Todo" entry (file+headline "~/notes/todo.org" "Akut")
              "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n  %i")
         ("j" "Todo" entry (file+headline "~/notes/todo.org" "Jumpie")
              "* TODO %?\n  %i")
