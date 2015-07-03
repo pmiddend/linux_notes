@@ -237,3 +237,9 @@
 
 ; Speichert Desktops
 (desktop-save-mode 1)
+
+(add-hook 'term-mode-hook 'evil-emacs-state)
+
+(add-hook 'nxml-mode-hook
+ (lambda () (rng-validate-mode 0) )
+ t)
