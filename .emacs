@@ -13,6 +13,11 @@
 (scroll-bar-mode -1)
 ; Bars deaktivieren end
 
+(require 'multi-term)
+(setq multi-term-program "/bin/zsh")
+(setq multi-term-dedicated-select t)
+(setq multi-term-dedicated-select-after-open-p t)
+
 ; evil begin
 ; ffap fuer C-w C-f
 (require 'ffap)
@@ -22,10 +27,11 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
  "fs" 'save-buffer
+ "s" 'multi-term-dedicated-toggle
+ "m" 'magit-status
  "<SPC>" 'ace-jump-mode)
 (evil-mode 1)
 ; Wenn das weg ist, geht ggf. evil-escape-mode nicht mehr, siehe https://github.com/syl20bnr/evil-escape/issues/26
-(hl-line-mode)
 (evil-escape-mode)
 (require 'evil-surround)
 (global-evil-surround-mode 1)
@@ -237,3 +243,5 @@
 
 ; Speichert Desktops
 (desktop-save-mode 1)
+
+(hl-line-mode)
