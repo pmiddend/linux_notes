@@ -27,7 +27,7 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
  "fs" 'save-buffer
- "s" 'multi-term-dedicated-toggle
+; "s" 'multi-term-dedicated-toggle
  "m" 'magit-status
  "<SPC>" 'ace-jump-mode)
 (evil-mode 1)
@@ -35,6 +35,7 @@
 (evil-escape-mode)
 (require 'evil-surround)
 (global-evil-surround-mode 1)
+(evil-set-initial-state 'term-mode 'emacs)
 ;(add-hook 'haskell-mode-hook (lambda () (push '(?( . ("(" . ")")) evil-surround-pairs-alist))))
 ; evil end
 
@@ -121,6 +122,9 @@
 ; Einrückung
 ;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+;(yas-global-mode 1)
+;(haskell-snippets-initialize 1)
+;(setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt))
 ;(add-hook 'haskell-mode-hook 'structured-haskell-mode)
 ; F8 auf "zu Imports gehen"
 ;(eval-after-load 'haskell-mode '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
@@ -150,6 +154,7 @@
 
 (require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key global-map (kbd "C-c s") 'multi-term-dedicated-toggle)
 
 (projectile-global-mode)
 
@@ -242,11 +247,11 @@
 (savehist-mode 1)
 
 ; Speichert Desktops
-(desktop-save-mode 1)
+;(desktop-save-mode 1)
 
 (hl-line-mode)
 
-(add-hook 'term-mode-hook 'evil-emacs-state)
+;(add-hook 'term-mode-hook 'evil-emacs-state)
 
 (add-hook 'nxml-mode-hook
  (lambda () (rng-validate-mode 0) )
