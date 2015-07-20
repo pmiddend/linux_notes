@@ -8,17 +8,25 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "/usr/bin/google-chrome")
+ '(browse-url-generic-program "/usr/bin/chromium-browser")
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
+    ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
  '(haskell-stylish-on-save t)
- '(org-agenda-files (quote ("~/notes/todo.org")))
+ '(inhibit-startup-screen t)
+ '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
+ '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
  '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
  '(org-log-done (quote time))
  '(org-modules (quote (org-habit)))
+ '(savehist-mode t)
+ '(sunshine-location "Hannover, Germany")
+ '(sunshine-units (quote metric))
  '(x-select-enable-primary t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -103,3 +111,16 @@
 (define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
 (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
 (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
+
+(load-theme 'zenburn t)
+
+(savehist-mode 1)
+(setq savehist-additional-variables
+      '(kill-ring
+        search-ring
+        regexp-search-ring))
+
+;(define-key eww-mode-map "f" 'eww-lnum-follow)
+
+(global-set-key (kbd "C-x b") 'helm-mini)
+
