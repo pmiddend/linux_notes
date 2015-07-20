@@ -59,10 +59,10 @@
 (add-hook 'haskell-mode-hook 'subword-mode)
 
 ; ghc-mod begin
-;(add-to-list 'load-path "~/.cabal/share/x86_64-linux-ghc-7.8.4/ghc-mod-5.2.1.2/")
-;(autoload 'ghc-init "ghc" nil t)
-;(autoload 'ghc-debug "ghc" nil t)
-;(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+(add-to-list 'load-path "~/.cabal/share/x86_64-linux-ghc-7.8.4/ghc-mod-5.2.1.2/")
+(autoload 'ghc-init "ghc" nil t)
+(autoload 'ghc-debug "ghc" nil t)
+(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
 ; ghc-mod end
 
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
@@ -94,23 +94,6 @@
 
 (add-hook 'haskell-mode-hook 'er/add-text-mode-expansions)
 
-; haskell interactive start
-(require 'haskell-interactive-mode)
-(require 'haskell-process)
-(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(custom-set-variables
-  '(haskell-process-suggest-remove-import-lines t)
-  '(haskell-process-auto-import-loaded-modules t)
-  '(haskell-process-log t))
-(define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
-(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
-(define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
-(define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
-(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
-(define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
-(define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
-(define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
-
 (load-theme 'zenburn t)
 
 (savehist-mode 1)
@@ -119,7 +102,7 @@
         search-ring
         regexp-search-ring))
 
-;(define-key eww-mode-map "f" 'eww-lnum-follow)
-
+(add-hook 'eww-mode-hook
+2	          (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow)))
 (global-set-key (kbd "C-x b") 'helm-mini)
 
