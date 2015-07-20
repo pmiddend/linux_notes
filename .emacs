@@ -42,7 +42,6 @@
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
   (add-to-list 'exec-path my-cabal-path))
 
-(require 'smex)
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 (ido-mode 1)
