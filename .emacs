@@ -68,6 +68,7 @@
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
 (define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-ca" 'org-agenda)
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/notes/todo.org" "Akut")
 	 "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n  %i")
@@ -98,10 +99,7 @@
 (require 'haskell-interactive-mode)
 (require 'haskell-process)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(custom-set-variables
-  '(haskell-process-suggest-remove-import-lines t)
-  '(haskell-process-auto-import-loaded-modules t)
-  '(haskell-process-log t))
+
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
@@ -122,4 +120,16 @@
 ;(define-key eww-mode-map "f" 'eww-lnum-follow)
 
 (global-set-key (kbd "C-x b") 'helm-mini)
+
+(require 'hydra)
+
+(defhydra hydra-window (global-map "C-x w" :color red :hint nil)
+  "
+ Misc: _u_ndo  _r_edo"
+  ("h" windmove-left)
+  ("j" windmove-down)
+  ("k" windmove-up)
+  ("l" windmove-right)
+  ("u" winner-undo)
+  ("r" winner-redo))
 
