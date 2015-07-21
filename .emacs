@@ -8,14 +8,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "/usr/bin/chromium-browser")
+ '(browse-url-generic-program "xdg-open")
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t)
- '(haskell-process-suggest-remove-import-lines t)
  '(haskell-stylish-on-save t)
  '(inhibit-startup-screen t)
  '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
