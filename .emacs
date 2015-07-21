@@ -101,10 +101,12 @@
         regexp-search-ring))
 
 (add-hook 'eww-mode-hook
-2	          (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow)))
+	          (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow)))
 (global-set-key (kbd "C-x b") 'helm-mini)
 
 (require 'hydra)
+
+(winner-mode)
 
 (defhydra hydra-window (global-map "C-x w" :color red :hint nil)
   "
@@ -116,3 +118,4 @@
   ("u" winner-undo)
   ("r" winner-redo))
 
+(setq browse-url-new-window-flag t)
