@@ -40,6 +40,8 @@
   (add-to-list 'exec-path my-cabal-path))
 
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "<f8>") 'eshell)
+(global-set-key (kbd "<f7>") 'magit-status)
 
 (ido-mode 1)
 (setq ido-everywhere t)
@@ -119,3 +121,14 @@
   ("r" winner-redo))
 
 (setq browse-url-new-window-flag t)
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+           (setenv "PAGER" "cat"))
+           (setenv "EDITOR" "emacsclient"))
+
+(require 'org-page)
+(setq op/repository-directory "/home/philipp/blog")
+(setq op/site-domain "https://pmiddend.github.io")
+(setq op/personal-github-link "https://github.com/pmiddend")
+(setq op/personal-google-analytics-id "UA-65636503-1")
