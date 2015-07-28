@@ -132,3 +132,6 @@
 (setq op/site-domain "https://pmiddend.github.io")
 (setq op/personal-github-link "https://github.com/pmiddend")
 (setq op/personal-google-analytics-id "UA-65636503-1")
+
+(require 'smartparens-config)
+(smartparens-global-mode t)
