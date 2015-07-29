@@ -57,23 +57,11 @@
 (avy-setup-default)
 (add-hook 'haskell-mode-hook 'subword-mode)
 
-; ghc-mod begin
-(add-to-list 'load-path "~/.cabal/share/x86_64-linux-ghc-7.8.4/ghc-mod-5.2.1.2/")
-(autoload 'ghc-init "ghc" nil t)
-(autoload 'ghc-debug "ghc" nil t)
-(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-; ghc-mod end
-
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
 (define-key global-map "\C-cc" 'org-capture)
 (define-key global-map "\C-ca" 'org-agenda)
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/notes/todo.org" "Akut")
-	 "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n  %i")
-	("r" "Random thoughts" entry (file+headline "~/notes/todo.org" "Random thoughts")
-	 "* %?")
-                ))
+
 (setq backup-directory-alist
           `((".*" . ,temporary-file-directory)))
     (setq auto-save-file-name-transforms
@@ -127,8 +115,9 @@
            (setenv "PAGER" "cat"))
            (setenv "EDITOR" "emacsclient"))
 
-(require 'org-page)
-(setq op/repository-directory "/home/philipp/blog")
-(setq op/site-domain "https://pmiddend.github.io")
-(setq op/personal-github-link "https://github.com/pmiddend")
-(setq op/personal-google-analytics-id "UA-65636503-1")
+(setq rng-nxml-auto-validate-flag nil)
+
+(setq org-clock-into-drawer t)
+(setq org-drawers '("PROPERTIES" "LOGBOOK"))
+
+(load "~/.emacs.d/personal-init")
