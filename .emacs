@@ -121,3 +121,6 @@
 (setq org-drawers '("PROPERTIES" "LOGBOOK"))
 
 (load "~/.emacs.d/personal-init")
+
+(require 'smartparens-config)
+(smartparens-global-mode t)
