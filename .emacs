@@ -104,14 +104,15 @@
 
 (defhydra hydra-window (global-map "C-x w" :color red :hint nil)
   "
- Misc: _u_ndo  _r_edo _x_ill"
+ Misc: _u_ndo  _r_edo _x_ill _n_ext"
   ("h" windmove-left)
   ("j" windmove-down)
   ("k" windmove-up)
   ("l" windmove-right)
   ("u" winner-undo)
   ("r" winner-redo)
-  ("x" kill-buffer))
+  ("x" kill-this-buffer)
+  ("n" next-buffer))
 
 (setq browse-url-new-window-flag t)
 
