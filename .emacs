@@ -130,3 +130,6 @@
 
 (require 'smartparens-config)
 (smartparens-global-mode t)
+
+(require 'which-key)
+(which-key-mode)
