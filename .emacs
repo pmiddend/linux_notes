@@ -7,6 +7,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(bm-highlight-style (quote bm-highlight-only-fringe))
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "xdg-open")
  '(custom-enabled-themes (quote (zenburn)))
@@ -37,6 +38,7 @@
  )
 
 (package-initialize)
+(require 'grep)
 (require 'helm-config)
 
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
@@ -102,7 +104,7 @@
 
 (winner-mode)
 
-(defhydra hydra-window (global-map "C-x w" :color red :hint nil)
+(defhydra hydra-window (global-map "C-c w" :color red :hint nil)
   "
  Misc: _u_ndo  _r_edo _x_ill _n_ext"
   ("h" windmove-left)
@@ -111,6 +113,7 @@
   ("l" windmove-right)
   ("u" winner-undo)
   ("r" winner-redo)
+  ("0" delete-windoww)
   ("x" kill-this-buffer)
   ("n" next-buffer))
 
@@ -133,3 +136,28 @@
 
 (require 'which-key)
 (which-key-mode)
+
+(require 'bm)
+
+(define-fringe-bitmap 'bm-marker-left [#xF8   ; ▮ ▮ ▮ ▮ ▮ 0 0 0
+                                       #xFC   ; ▮ ▮ ▮ ▮ ▮ ▮ 0 0
+                                       #xFE   ; ▮ ▮ ▮ ▮ ▮ ▮ ▮ 0
+                                       #x0F   ; 0 0 0 0 ▮ ▮ ▮ ▮
+                                       #x0F   ; 0 0 0 0 ▮ ▮ ▮ ▮
+                                       #xFE   ; ▮ ▮ ▮ ▮ ▮ ▮ ▮ 0
+                                       #xFC   ; ▮ ▮ ▮ ▮ ▮ ▮ 0 0
+                                       #xF8]) ; ▮ ▮ ▮ ▮ ▮ 0 0 0
+
+(defhydra hydra-bm (:color red :hint nil :idle 1.0)
+  "Bookmarks"
+  ("t" bm-toggle "Toggle")
+  ("j" bm-next "Next")
+  ("k" bm-previous "Previous")
+  ("l" bm-show "Show local")
+  ("A" bm-show-all "Show all")
+  ("a" bm-bookmark-annotate)
+  ("x" bm-remove-all-current-buffer :color blue))
+(global-set-key (kbd "C-c b") 'hydra-bm/body)
+
+(require 'powerline)
+(powerline-default-theme)
