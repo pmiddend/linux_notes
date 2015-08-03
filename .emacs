@@ -117,6 +117,11 @@
   ("x" kill-this-buffer)
   ("n" next-buffer))
 
+(defhydra hydra-misc (global-map "C-x m" :color red :hint nil)
+  "
+ Misc: _s_potify"
+  ("s" helm-spotify))
+
 (setq browse-url-new-window-flag t)
 
 (add-hook 'eshell-mode-hook
