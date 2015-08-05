@@ -136,33 +136,39 @@
 
 (load "~/.emacs.d/personal-init")
 
-(require 'smartparens-config)
-(smartparens-global-mode t)
+(require 'use-package)
 
-(require 'which-key)
-(which-key-mode)
+(use-package smartparens
+	     :ensure t
+	     :init (smartparens-global-mode t))
 
-(require 'bm)
+(use-package which-key
+  :ensure t
+  :init (which-key-mode))
 
-(define-fringe-bitmap 'bm-marker-left [#xF8   ; ▮ ▮ ▮ ▮ ▮ 0 0 0
+(use-package bm
+  :ensure t
+  :init
+  (define-fringe-bitmap 'bm-marker-left [#xF8   ; ▮ ▮ ▮ ▮ ▮ 0 0 0
                                        #xFC   ; ▮ ▮ ▮ ▮ ▮ ▮ 0 0
                                        #xFE   ; ▮ ▮ ▮ ▮ ▮ ▮ ▮ 0
                                        #x0F   ; 0 0 0 0 ▮ ▮ ▮ ▮
                                        #x0F   ; 0 0 0 0 ▮ ▮ ▮ ▮
                                        #xFE   ; ▮ ▮ ▮ ▮ ▮ ▮ ▮ 0
                                        #xFC   ; ▮ ▮ ▮ ▮ ▮ ▮ 0 0
-                                       #xF8]) ; ▮ ▮ ▮ ▮ ▮ 0 0 0
-
-(defhydra hydra-bm (:color red :hint nil :idle 1.0)
+                                       #xF8])
+  (defhydra hydra-bm (:color red :hint nil :idle 1.0)
   "Bookmarks"
-  ("t" bm-toggle "Toggle")
-  ("j" bm-next "Next")
-  ("k" bm-previous "Previous")
-  ("l" bm-show "Show local")
-  ("A" bm-show-all "Show all")
-  ("a" bm-bookmark-annotate)
-  ("x" bm-remove-all-current-buffer :color blue))
-(global-set-key (kbd "C-c b") 'hydra-bm/body)
+    ("t" bm-toggle "Toggle")
+    ("j" bm-next "Next")
+    ("k" bm-previous "Previous")
+    ("l" bm-show "Show local")
+    ("A" bm-show-all "Show all")
+    ("a" bm-bookmark-annotate)
+    ("x" bm-remove-all-current-buffer :color blue))
+  (global-set-key (kbd "C-c b") 'hydra-bm/body))
 
-(require 'powerline)
-(powerline-default-theme)
+(use-package powerline
+  :ensure t
+  :init
+  (powerline-default-theme))
