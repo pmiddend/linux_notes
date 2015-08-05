@@ -1,7 +1,3 @@
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-("marmalade" . "http://marmalade-repo.org/packages/")
-("melpa" . "http://melpa.milkbox.net/packages/")))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -37,30 +33,63 @@
  ;; If there is more than one, they won't work right.
  )
 
+(require 'package)
+(setq package-enable-at-startup nil)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+("marmalade" . "http://marmalade-repo.org/packages/")
+("melpa" . "http://melpa.milkbox.net/packages/")))
+
 (package-initialize)
-(require 'grep)
-(require 'helm-config)
+
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+    (package-install 'use-package))
+
+(require 'use-package)
+
+(use-package grep
+  :ensure t)
+
+(use-package helm
+  :ensure t
+  :init
+  (global-set-key (kbd "M-x") 'helm-M-x))
+
+(use-package ido-ubiquitous
+  :ensure t
+  :init
+  (ido-ubiquitous-mode 1))
+  
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-global-mode)
+  (setq projectile-completion-system 'helm))(helm-projectile-on)
+
+(use-package helm-projectile
+  :ensure t
+  :init
+  (helm-projectile-on))
 
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
   (add-to-list 'exec-path my-cabal-path))
 
-(global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "<f8>") 'eshell)
 (global-set-key (kbd "<f7>") 'magit-status)
 
 (ido-mode 1)
 (setq ido-everywhere t)
-(ido-ubiquitous-mode 1)
 (setq ido-enable-flex-matching t)
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
 
-(require 'avy)
-(global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
-(global-set-key (kbd "C-'") 'avy-goto-char)
-(avy-setup-default)
+(use-package avy
+  :ensure t
+  :init
+  (global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
+  (global-set-key (kbd "C-'") 'avy-goto-char)
+  (avy-setup-default))
+  
 (add-hook 'haskell-mode-hook 'subword-mode)
 
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
@@ -73,22 +102,31 @@
     (setq auto-save-file-name-transforms
           `((".*" ,temporary-file-directory t)))
 
-(rainbow-delimiters-mode)
+(use-package rainbow-delimiters
+  :ensure t
+  :init
+  (rainbow-delimiters-mode))
+
 (show-paren-mode)
 
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(use-package expand-region
+  :ensure t
+  :init
+  (global-set-key (kbd "C-=") 'er/expand-region))
 
-(defun er/add-text-mode-expansions ()
-  (make-variable-buffer-local 'er/try-expand-list)
-  (setq er/try-expand-list (append
-                            er/try-expand-list
-                            '(mark-paragraph
-                              mark-page))))
+;(defun er/add-text-mode-expansions ()
+;  (make-variable-buffer-local 'er/try-expand-list)
+;  (setq er/try-expand-list (append
+;                            er/try-expand-list
+;                            '(mark-paragraph
+;                              mark-page))))
+;
+;(add-hook 'haskell-mode-hook 'er/add-text-mode-expansions)
 
-(add-hook 'haskell-mode-hook 'er/add-text-mode-expansions)
-
-(load-theme 'zenburn t)
+(use-package zenburn-theme
+  :ensure t
+  :init
+  (load-theme 'zenburn t))
 
 (savehist-mode 1)
 (setq savehist-additional-variables
@@ -100,27 +138,29 @@
 	          (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow)))
 (global-set-key (kbd "C-x b") 'helm-mini)
 
-(require 'hydra)
+(use-package hydra
+  :ensure t
+  :init 
+  (defhydra hydra-window (global-map "C-c w" :color red :hint nil)
+    "Misc: _u_ndo  _r_edo _x_ill _n_ext"
+    ("h" windmove-left)
+    ("j" windmove-down)
+    ("k" windmove-up)
+    ("l" windmove-right)
+    ("u" winner-undo)
+    ("r" winner-redo)
+    ("0" delete-windoww)
+    ("x" kill-this-buffer)
+    ("n" next-buffer)))
 
 (winner-mode)
 
-(defhydra hydra-window (global-map "C-c w" :color red :hint nil)
-  "
- Misc: _u_ndo  _r_edo _x_ill _n_ext"
-  ("h" windmove-left)
-  ("j" windmove-down)
-  ("k" windmove-up)
-  ("l" windmove-right)
-  ("u" winner-undo)
-  ("r" winner-redo)
-  ("0" delete-windoww)
-  ("x" kill-this-buffer)
-  ("n" next-buffer))
-
-(defhydra hydra-misc (global-map "C-x m" :color red :hint nil)
-  "
- Misc: _s_potify"
-  ("s" helm-spotify))
+(use-package helm-spotify
+  :ensure t
+  :init
+  (defhydra hydra-misc (global-map "C-x m" :color red :hint nil)
+    "Misc: _s_potify"
+    ("s" helm-spotify)))
 
 (setq browse-url-new-window-flag t)
 
@@ -136,7 +176,6 @@
 
 (load "~/.emacs.d/personal-init")
 
-(require 'use-package)
 
 (use-package smartparens
 	     :ensure t
