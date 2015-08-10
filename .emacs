@@ -56,21 +56,25 @@
   :init
   (global-set-key (kbd "M-x") 'helm-M-x))
 
-(use-package ido-ubiquitous
-  :ensure t
-  :init
-  (ido-ubiquitous-mode 1))
+;(use-package ido-ubiquitous
+;  :ensure t
+;  :init
+;  (ido-ubiquitous-mode 1)
+;  (ido-mode 1)
+;  (setq ido-everywhere t)
+;  (setq ido-enable-flex-matching t)
+;)
   
 (use-package projectile
   :ensure t
   :init
-  (projectile-global-mode)
-  (setq projectile-completion-system 'helm))(helm-projectile-on)
+  (projectile-global-mode))
+;  (setq projectile-completion-system 'helm))
 
-(use-package helm-projectile
-  :ensure t
-  :init
-  (helm-projectile-on))
+;(use-package helm-projectile
+;  :ensure t
+;  :init
+;  (helm-projectile-on))
 
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
@@ -79,14 +83,10 @@
 (global-set-key (kbd "<f8>") 'eshell)
 (global-set-key (kbd "<f7>") 'magit-status)
 
-(ido-mode 1)
-(setq ido-everywhere t)
-(setq ido-enable-flex-matching t)
-
 (use-package avy
   :ensure t
   :init
-  (global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
+  (global-set-key (kbd "C-.") 'avy-goto-word-or-subword-1)
   (global-set-key (kbd "C-'") 'avy-goto-char)
   (avy-setup-default))
   
@@ -136,13 +136,14 @@
 
 (add-hook 'eww-mode-hook
 	          (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow)))
-(global-set-key (kbd "C-x b") 'helm-mini)
+;(global-set-key (kbd "C-x b") 'helm-mini)
 
 (use-package hydra
-  :ensure t
-  :init 
-  (defhydra hydra-window (global-map "C-c w" :color red :hint nil)
-    "Misc: _u_ndo  _r_edo _x_ill _n_ext"
+  :ensure t)
+
+(defhydra hydra-window (global-map "C-c w" :color red :hint nil)
+    "
+    Windows: _u_ndo  _r_edo _x_ill _n_ext _p_revious"
     ("h" windmove-left)
     ("j" windmove-down)
     ("k" windmove-up)
@@ -150,15 +151,18 @@
     ("u" winner-undo)
     ("r" winner-redo)
     ("0" delete-windoww)
-    ("x" kill-this-buffer)
-    ("n" next-buffer)))
+    ("2" split-window-below)
+    ("3" split-window-right)
+    ("n" next-buffer)
+    ("p" previous-buffer)
+    ("x" kill-this-buffer))
 
 (winner-mode)
 
 (use-package helm-spotify
   :ensure t
   :init
-  (defhydra hydra-misc (global-map "C-x m" :color red :hint nil)
+  (defhydra hydra-misc (global-map "C-c m" :color red :hint nil)
     "Misc: _s_potify"
     ("s" helm-spotify)))
 
@@ -211,3 +215,14 @@
   :ensure t
   :init
   (powerline-default-theme))
+
+(use-package swiper
+  :ensure t
+  :init
+  (setq ivy-use-virtual-buffers t)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key "\C-r" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key [f6] 'ivy-resume)
+  (ivy-mode 1)
+  (setq projectile-completion-system 'ivy))
