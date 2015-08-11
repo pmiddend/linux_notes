@@ -56,25 +56,25 @@
   :init
   (global-set-key (kbd "M-x") 'helm-M-x))
 
-;(use-package ido-ubiquitous
-;  :ensure t
-;  :init
-;  (ido-ubiquitous-mode 1)
-;  (ido-mode 1)
-;  (setq ido-everywhere t)
-;  (setq ido-enable-flex-matching t)
-;)
+(use-package ido-ubiquitous
+  :ensure t
+  :init
+  (ido-ubiquitous-mode 1)
+  (ido-mode 1)
+  (setq ido-everywhere t)
+  (setq ido-enable-flex-matching t)
+)
   
 (use-package projectile
   :ensure t
   :init
-  (projectile-global-mode))
-;  (setq projectile-completion-system 'helm))
+  (projectile-global-mode)
+  (setq projectile-completion-system 'helm))
 
-;(use-package helm-projectile
-;  :ensure t
-;  :init
-;  (helm-projectile-on))
+(use-package helm-projectile
+  :ensure t
+  :init
+  (helm-projectile-on))
 
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
@@ -211,18 +211,8 @@
     ("x" bm-remove-all-current-buffer :color blue))
   (global-set-key (kbd "C-c b") 'hydra-bm/body))
 
-(use-package powerline
-  :ensure t
-  :init
-  (powerline-default-theme))
-
-(use-package swiper
-  :ensure t
-  :init
-  (setq ivy-use-virtual-buffers t)
-  (global-set-key "\C-s" 'swiper)
-  (global-set-key "\C-r" 'swiper)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  (global-set-key [f6] 'ivy-resume)
-  (ivy-mode 1)
-  (setq projectile-completion-system 'ivy))
+; klappt mit circe nicht.
+;(use-package powerline
+;  :ensure t
+;  :init
+;  (powerline-default-theme))
