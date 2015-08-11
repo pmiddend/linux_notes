@@ -10,7 +10,7 @@
  '(custom-safe-themes
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
- '(haskell-stylish-on-save t)
+ '(haskell-stylish-on-save nil)
  '(inhibit-startup-screen t)
  '(op/site-main-title "pmiddend's Blog")
  '(op/site-sub-title
