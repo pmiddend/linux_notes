@@ -150,7 +150,7 @@
     ("l" windmove-right)
     ("u" winner-undo)
     ("r" winner-redo)
-    ("0" delete-windoww)
+    ("0" delete-window)
     ("2" split-window-below)
     ("3" split-window-right)
     ("n" next-buffer)
