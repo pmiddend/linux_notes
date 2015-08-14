@@ -150,7 +150,7 @@
     ("l" windmove-right)
     ("u" winner-undo)
     ("r" winner-redo)
-    ("0" delete-windoww)
+    ("0" delete-window)
     ("2" split-window-below)
     ("3" split-window-right)
     ("n" next-buffer)
@@ -216,3 +216,24 @@
 ;  :ensure t
 ;  :init
 ;  (powerline-default-theme))
+
+(use-package evil
+  :ensure t
+  :init
+  (evil-mode 1)
+  (evil-define-state emacs
+    "Emacs state that can be exited with the escape key."
+    :tag " <EE> "
+    :message "-- EMACS WITH ESCAPE --"
+    :input-method t)
+  (defadvice evil-insert-state (around emacs-state-instead-of-insert-state activate)
+    (evil-emacs-state))
+  (setq evil-default-state 'emacs)
+  (setq evil-normal-state-cursor '(box "red"))
+  (setq evil-visual-state-cursor '(box "blue"))
+  (setq evil-motion-state-cursor '(box "green"))
+  (setq evil-emacs-state-cursor '(box "white"))
+  (evil-set-initial-state 'fundamental-mode 'emacs)
+  (evil-set-initial-state 'prog-mode 'emacs)
+  (evil-set-initial-state 'text-mode 'emacs))
+
