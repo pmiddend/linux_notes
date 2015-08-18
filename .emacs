@@ -69,7 +69,8 @@
   :ensure t
   :init
   (projectile-global-mode)
-  (setq projectile-completion-system 'helm))
+  (setq projectile-completion-system 'helm)
+  (setq projectile-mode-line '(:eval (format " ℙ[%s]" (projectile-project-name)))))
 
 (use-package helm-projectile
   :ensure t
@@ -187,6 +188,7 @@
 
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :init (which-key-mode))
 
 (use-package bm
@@ -237,3 +239,12 @@
   (evil-set-initial-state 'prog-mode 'emacs)
   (evil-set-initial-state 'text-mode 'emacs))
 
+(use-package undo-tree
+  :diminish undo-tree-mode)
+
+(use-package diminish
+  :ensure t
+  :init
+  (diminish 'auto-fill-function "𝔽"))
+
+(fset 'yes-or-no-p 'y-or-n-p)
