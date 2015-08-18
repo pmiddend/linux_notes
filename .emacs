@@ -41,6 +41,9 @@
 
 (package-initialize)
 
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -48,16 +51,15 @@
 
 (require 'use-package)
 
-(use-package grep
-  :ensure t)
+(setq use-package-always-ensure t)
+
+(use-package grep)
 
 (use-package helm
-  :ensure t
   :init
   (global-set-key (kbd "M-x") 'helm-M-x))
 
 (use-package ido-ubiquitous
-  :ensure t
   :init
   (ido-ubiquitous-mode 1)
   (ido-mode 1)
@@ -66,13 +68,11 @@
 )
   
 (use-package projectile
-  :ensure t
   :init
   (projectile-global-mode)
   (setq projectile-completion-system 'helm))
 
 (use-package helm-projectile
-  :ensure t
   :init
   (helm-projectile-on))
 
@@ -80,11 +80,9 @@
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
   (add-to-list 'exec-path my-cabal-path))
 
-(global-set-key (kbd "<f8>") 'eshell)
 (global-set-key (kbd "<f7>") 'magit-status)
 
 (use-package avy
-  :ensure t
   :init
   (global-set-key (kbd "C-.") 'avy-goto-word-or-subword-1)
   (global-set-key (kbd "C-'") 'avy-goto-char)
@@ -103,14 +101,12 @@
           `((".*" ,temporary-file-directory t)))
 
 (use-package rainbow-delimiters
-  :ensure t
   :init
   (rainbow-delimiters-mode))
 
 (show-paren-mode)
 
 (use-package expand-region
-  :ensure t
   :init
   (global-set-key (kbd "C-=") 'er/expand-region))
 
@@ -124,7 +120,6 @@
 ;(add-hook 'haskell-mode-hook 'er/add-text-mode-expansions)
 
 (use-package zenburn-theme
-  :ensure t
   :init
   (load-theme 'zenburn t))
 
@@ -138,8 +133,7 @@
 	          (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow)))
 ;(global-set-key (kbd "C-x b") 'helm-mini)
 
-(use-package hydra
-  :ensure t)
+(use-package hydra)
 
 (defhydra hydra-window (global-map "C-c w" :color red :hint nil)
     "
@@ -160,7 +154,6 @@
 (winner-mode)
 
 (use-package helm-spotify
-  :ensure t
   :init
   (defhydra hydra-misc (global-map "C-c m" :color red :hint nil)
     "Misc: _s_potify"
@@ -182,15 +175,12 @@
 
 
 (use-package smartparens
-	     :ensure t
 	     :init (smartparens-global-mode t))
 
 (use-package which-key
-  :ensure t
   :init (which-key-mode))
 
 (use-package bm
-  :ensure t
   :init
   (define-fringe-bitmap 'bm-marker-left [#xF8   ; ▮ ▮ ▮ ▮ ▮ 0 0 0
                                        #xFC   ; ▮ ▮ ▮ ▮ ▮ ▮ 0 0
@@ -213,27 +203,45 @@
 
 ; klappt mit circe nicht.
 ;(use-package powerline
-;  :ensure t
 ;  :init
 ;  (powerline-default-theme))
 
 (use-package evil
-  :ensure t
   :init
+  (require 'ffap)
   (evil-mode 1)
-  (evil-define-state emacs
-    "Emacs state that can be exited with the escape key."
-    :tag " <EE> "
-    :message "-- EMACS WITH ESCAPE --"
-    :input-method t)
-  (defadvice evil-insert-state (around emacs-state-instead-of-insert-state activate)
-    (evil-emacs-state))
-  (setq evil-default-state 'emacs)
-  (setq evil-normal-state-cursor '(box "red"))
-  (setq evil-visual-state-cursor '(box "blue"))
-  (setq evil-motion-state-cursor '(box "green"))
-  (setq evil-emacs-state-cursor '(box "white"))
-  (evil-set-initial-state 'fundamental-mode 'emacs)
-  (evil-set-initial-state 'prog-mode 'emacs)
-  (evil-set-initial-state 'text-mode 'emacs))
+  (evil-set-initial-state 'term-mode 'emacs)
+  (evil-set-initial-state 'eshell-mode 'emacs)
+;  (evil-define-state emacs
+;    "Emacs state that can be exited with the escape key."
+;    :tag " <EE> "
+;    :message "-- EMACS WITH ESCAPE --"
+;    :input-method t)
+;  (defadvice evil-insert-state (around emacs-state-instead-of-insert-state activate)
+;    (evil-emacs-state))
+;  (setq evil-default-state 'emacs)
+;  (setq evil-normal-state-cursor '(box "red"))
+;  (setq evil-visual-state-cursor '(box "blue"))
+;  (setq evil-motion-state-cursor '(box "green"))
+;  (setq evil-emacs-state-cursor '(box "white"))
+;  (evil-set-initial-state 'fundamental-mode 'emacs)
+;  (evil-set-initial-state 'prog-mode 'emacs)
+					;  (evil-set-initial-state 'text-mode 'emacs))
+  )
 
+(use-package evil-escape
+  :init
+  (evil-escape-mode))
+
+(use-package evil-leader
+  :init
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+   "fs" 'save-buffer
+   "s" 'eshell
+   "<SPC>" 'avy-goto-word-or-subword-1))
+
+(use-package evil-surround
+  :init
+  (global-evil-surround-mode 1))
