@@ -70,7 +70,8 @@
 (use-package projectile
   :init
   (projectile-global-mode)
-  (setq projectile-completion-system 'helm))
+  (setq projectile-completion-system 'helm)
+  (setq projectile-mode-line '(:eval (format " ℙ[%s]" (projectile-project-name)))))
 
 (use-package helm-projectile
   :init
@@ -178,6 +179,7 @@
 	     :init (smartparens-global-mode t))
 
 (use-package which-key
+  :diminish which-key-mode
   :init (which-key-mode))
 
 (use-package bm
@@ -245,3 +247,13 @@
 (use-package evil-surround
   :init
   (global-evil-surround-mode 1))
+
+(use-package undo-tree
+  :diminish undo-tree-mode)
+
+(use-package diminish
+  :ensure t
+  :init
+  (diminish 'auto-fill-function "𝔽"))
+
+(fset 'yes-or-no-p 'y-or-n-p)
