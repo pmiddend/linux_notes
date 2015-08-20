@@ -214,6 +214,7 @@
   (evil-mode 1)
   (evil-set-initial-state 'term-mode 'emacs)
   (evil-set-initial-state 'eshell-mode 'emacs)
+  (evil-set-initial-state 'circe-mode 'emacs)
 ;  (evil-define-state emacs
 ;    "Emacs state that can be exited with the escape key."
 ;    :tag " <EE> "
@@ -231,9 +232,9 @@
 					;  (evil-set-initial-state 'text-mode 'emacs))
   )
 
-(use-package evil-escape
-  :init
-  (evil-escape-mode))
+;(use-package evil-escape
+;  :init
+;  (evil-escape-mode))
 
 (use-package evil-leader
   :init
@@ -257,3 +258,8 @@
   (diminish 'auto-fill-function "𝔽"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
+
+; Achtivate if in melpa
+;(use-package evil-quickscope
+;  :init
+;  (global-evil-quickscope-always-mode 1))
