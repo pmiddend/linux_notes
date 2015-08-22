@@ -178,9 +178,9 @@
 (use-package smartparens
 	     :init (smartparens-global-mode t))
 
-(use-package which-key
-  :diminish which-key-mode
-  :init (which-key-mode))
+;(use-package which-key
+;  :diminish which-key-mode
+;  :init (which-key-mode))
 
 (use-package bm
   :init
