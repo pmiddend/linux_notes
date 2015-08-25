@@ -3,6 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(bbdb-file "~/notes/bbdb")
+ '(bbdb-phone-style nil)
  '(bm-highlight-style (quote bm-highlight-only-fringe))
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "xdg-open")
@@ -21,7 +23,7 @@
  '(org-icalendar-include-todo (quote all))
  '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
  '(org-log-done (quote time))
- '(org-modules (quote (org-habit)))
+ '(org-modules (quote (org-bbdb org-habit)))
  '(savehist-mode t)
  '(sunshine-location "Hannover, Germany")
  '(sunshine-units (quote metric))
@@ -268,3 +270,9 @@
 
 (setq org-todo-keyword-faces
   '(("WAIT" . "yellow")))
+
+(use-package bbdb
+  :init
+  (bbdb-initialize))
+
+
