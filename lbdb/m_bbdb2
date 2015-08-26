@@ -1,0 +1,39 @@
+#! /usr/bin/bash -posix
+#
+# -*-sh-mode-*-
+#
+#     Copyright (c) 2001  Utz-Uwe Haus <haus@uuhaus.de> 2001
+#     Copyright (c) 2003  Aaron Kaplan <kaplan@cs.rochester.edu> 
+#     Copyright (c) 2005  Roland Rosenfeld <roland@spinnaker.de>
+#
+#     This program is free software; you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation; either version 2 of the License, or
+#     (at your option) any later version.
+# 
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+# 
+#     You should have received a copy of the GNU General Public License
+#     along with this program; if not, write to the Free Software Foundation,
+#     Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301,, USA.
+#
+# $Id: m_bbdb2.sh.in,v 1.9 2009/06/11 10:56:22 roland Exp $
+
+prefix=/usr
+exec_prefix=/usr
+libdir=/usr/libexec/lbdb
+
+m_bbdb2_query()
+{
+    if true;
+    then
+	form="(progn (require (quote lbdb-bbdb-query) 
+		              \"$HOME/linux_notes/lbdb/lbdb_bbdb_query.el\") 
+                     (custom-set-variables '(bbdb-file \"~/notes/bbdb\"))
+                     (lbdb-bbdb-query \"$@\"))"
+	emacs -nw --no-site-file --no-init-file -batch --eval "$form"  2>/dev/null
+    fi |  grep -va '^$' || :
+}
