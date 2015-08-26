@@ -1,0 +1,2 @@
+MODULES_PATH="$MODULES_PATH $HOME/linux_notes/lbdb"
+METHODS="m_bbdb2"
