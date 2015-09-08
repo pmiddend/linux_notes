@@ -261,11 +261,6 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-; Achtivate if in melpa
-(use-package evil-quickscope
-  :init
-  (global-evil-quickscope-always-mode 1))
-
 (use-package org-page)
 
 (setq org-todo-keyword-faces
@@ -275,4 +270,6 @@
   :init
   (bbdb-initialize))
 
-
+(use-package org-bullets
+  :init
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
