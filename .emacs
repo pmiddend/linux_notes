@@ -7,7 +7,7 @@
  '(bbdb-phone-style nil)
  '(bm-highlight-style (quote bm-highlight-only-fringe))
  '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "xdg-open")
+ '(browse-url-generic-program "google-chrome")
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
@@ -18,6 +18,11 @@
  '(op/site-sub-title
    "Stuff about Haskell, nutrition, learning and life in general")
  '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
+ '(org-babel-load-languages
+   (quote
+    ((emacs-lisp . t)
+     (shell . t)
+     (plantuml . t))))
  '(org-clock-into-drawer t)
  '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
@@ -273,3 +278,16 @@
 (use-package org-bullets
   :init
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package org-cliplink
+  :init
+  (global-set-key (kbd "C-x p i") 'org-cliplink))
+
+(defun nxml-pretty-format ()
+    (interactive)
+    (save-excursion
+        (shell-command-on-region (point-min) (point-max) "xmllint --format -" (buffer-name) t)
+        (nxml-mode)
+        (indent-region begin end)))
+
+(use-package twittering-mode)
