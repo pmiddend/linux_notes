@@ -101,6 +101,7 @@
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
 (define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-l" 'avy-goto-word-or-subword-1)
 (define-key global-map "\C-ca" 'org-agenda)
 
 (setq backup-directory-alist
