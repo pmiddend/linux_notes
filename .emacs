@@ -68,10 +68,12 @@
 
 (use-package ido-ubiquitous
   :init
-  (ido-ubiquitous-mode 1)
   (ido-mode 1)
-  (setq ido-everywhere t)
+  (ido-everywhere 1)
+  (ido-ubiquitous-mode 1)
   (setq ido-enable-flex-matching t)
+  (setq org-completion-use-ido t)
+  (setq magit-completing-read-function 'magit-ido-completing-read)
 )
   
 (use-package projectile
