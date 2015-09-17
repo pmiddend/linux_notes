@@ -14,15 +14,14 @@
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
  '(haskell-stylish-on-save nil)
  '(inhibit-startup-screen t)
+ '(newsticker-url-list
+   (quote
+    (("planet emacs" "http://planet.emacsen.org/atom.xml" nil nil nil))))
  '(op/site-main-title "pmiddend's Blog")
  '(op/site-sub-title
    "Stuff about Haskell, nutrition, learning and life in general")
  '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
- '(org-babel-load-languages
-   (quote
-    ((emacs-lisp . t)
-     (shell . t)
-     (plantuml . t))))
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t) (plantuml . t))))
  '(org-clock-into-drawer t)
  '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
@@ -293,4 +292,11 @@
         (nxml-mode)
         (indent-region begin end)))
 
-(use-package twittering-mode)
+(use-package pdf-tools)
+
+(use-package org-pdfview
+  :init
+  (pdf-tools-install)
+  (delete '("\\.pdf\\'" . default) org-file-apps)
+  (add-to-list 'org-file-apps '("\\.pdf\\'" . org-pdfview-open))
+  (add-to-list 'org-file-apps '("\\.pdf::\\([[:digit:]]+\\)\\'" . org-pdfview-open)))
