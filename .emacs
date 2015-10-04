@@ -6,7 +6,7 @@
  '(bbdb-file "~/notes/bbdb")
  '(bbdb-phone-style nil)
  '(bm-highlight-style (quote bm-highlight-only-fringe))
- '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-browser-function (quote w3m-goto-url-new-session))
  '(browse-url-generic-program "google-chrome")
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
@@ -22,7 +22,7 @@
    "Stuff about Haskell, nutrition, learning and life in general")
  '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
  '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
- '(org-clock-into-drawer t)
+ '(org-clock-into-drawer t t)
  '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
  '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
@@ -318,4 +318,5 @@
 ;                    :foreground "white")
 ;  (set-face-attribute 'ido-vertical-match-face nil
 ;                    :foreground "#b00000")
-  (ido-vertical-mode 1))
+  (ido-vertical-mode 1)
+  (setq ido-vertical-define-keys 'C-n-C-p-up-and-down))
