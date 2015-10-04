@@ -21,7 +21,7 @@
  '(op/site-sub-title
    "Stuff about Haskell, nutrition, learning and life in general")
  '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
- '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t) (plantuml . t))))
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
  '(org-clock-into-drawer t)
  '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
@@ -102,6 +102,7 @@
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
 (define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-l" 'avy-goto-word-or-subword-1)
 (define-key global-map "\C-ca" 'org-agenda)
 
@@ -244,6 +245,9 @@
 ;(use-package evil-escape
 ;  :init
 ;  (evil-escape-mode))
+(defun switch-to-previous-buffer ()
+      (interactive)
+      (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (use-package evil-leader
   :init
@@ -251,6 +255,7 @@
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
    "fs" 'save-buffer
+   "<tab>" 'switch-to-previous-buffer
    "s" 'eshell
    "<SPC>" 'avy-goto-word-or-subword-1))
 
@@ -300,3 +305,17 @@
   (delete '("\\.pdf\\'" . default) org-file-apps)
   (add-to-list 'org-file-apps '("\\.pdf\\'" . org-pdfview-open))
   (add-to-list 'org-file-apps '("\\.pdf::\\([[:digit:]]+\\)\\'" . org-pdfview-open)))
+
+(use-package gist)
+
+(use-package ido-vertical-mode
+  :init
+;  (setq ido-use-faces t)
+;  (set-face-attribute 'ido-vertical-first-match-face nil
+;                    :background "#e5b7c0")
+;  (set-face-attribute 'ido-vertical-only-match-face nil
+;                    :background "#e52b50"
+;                    :foreground "white")
+;  (set-face-attribute 'ido-vertical-match-face nil
+;                    :foreground "#b00000")
+  (ido-vertical-mode 1))
