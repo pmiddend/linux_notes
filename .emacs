@@ -78,7 +78,7 @@
   (setq org-completion-use-ido t)
   (setq magit-completing-read-function 'magit-ido-completing-read)
 )
-  
+
 (use-package projectile
   :init
   (projectile-global-mode)
@@ -100,7 +100,7 @@
   (global-set-key (kbd "C-.") 'avy-goto-word-or-subword-1)
   (global-set-key (kbd "C-'") 'avy-goto-char)
   (avy-setup-default))
-  
+
 (add-hook 'haskell-mode-hook 'subword-mode)
 
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
@@ -334,3 +334,15 @@
       '(("\\.pdf\\'" "xdg-open")
 	; hier weitere
 	))
+
+(defun wicked/w3m-open-current-page-in-generic ()
+  "Open the current URL in generic."
+  (interactive)
+  (browse-url-generic w3m-current-url)) ;; (1)
+
+
+(use-package shell-pop
+  :init
+  (custom-set-variables
+   '(shell-pop-universal-key "C-c t")
+   '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))))
