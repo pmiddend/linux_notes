@@ -335,10 +335,15 @@
 	; hier weitere
 	))
 
-(defun wicked/w3m-open-current-page-in-generic ()
+(defun w3m-open-current-page-in-generic ()
   "Open the current URL in generic."
   (interactive)
   (browse-url-generic w3m-current-url)) ;; (1)
+
+
+(use-package w3m
+  :init
+  (define-key w3m-mode-map (kbd "C-c C-o") 'w3m-open-current-page-in-generic))
 
 
 (use-package shell-pop
