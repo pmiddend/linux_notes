@@ -38,6 +38,10 @@
  '(shell-pop-universal-key "C-c t")
  '(sunshine-location "Hannover, Germany")
  '(sunshine-units (quote metric))
+ '(w3m-search-default-engine "duckduckgo")
+ '(w3m-search-engine-alist
+   (quote
+    (("duckduckgo" "https://duckduckgo.com/?q=%s" undecided))))
  '(x-select-enable-primary t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
