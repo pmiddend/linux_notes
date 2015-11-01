@@ -13,21 +13,30 @@
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
  '(haskell-stylish-on-save nil)
+ '(ido-use-virtual-buffers t)
  '(ido-vertical-disable-if-short t)
  '(inhibit-startup-screen t)
  '(mouse-wheel-progressive-speed nil)
+ '(mu4e-html2text-command "w3m -dump -T text/html")
  '(newsticker-url-list
    (quote
     (("planet emacs" "http://planet.emacsen.org/atom.xml" nil nil nil))))
  '(op/site-main-title "pmiddend's Blog")
  '(op/site-sub-title
    "Stuff about Haskell, nutrition, learning and life in general")
+ '(openwith-associations
+   (quote
+    (("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\|mkv\\)\\'" "mpv"
+      (file))
+     ("\\.\\(?:jp?g\\|png\\)\\'" "display"
+      (file)))))
  '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
  '(org-agenda-span 14)
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
  '(org-clock-into-drawer t t)
+ '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
  '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
@@ -90,7 +99,7 @@
   :init
   (projectile-global-mode)
   (setq projectile-completion-system 'helm)
-  (setq projectile-mode-line '(:eval (format " ℙ[%s]" (projectile-project-name)))))
+  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
 
 (use-package helm-projectile
   :init
@@ -199,7 +208,8 @@
 
 
 (use-package smartparens
-	     :init (smartparens-global-mode t))
+  :init (smartparens-global-mode t)
+  :diminish smartparens-mode)
 
 ;(use-package which-key
 ;  :diminish which-key-mode
@@ -255,9 +265,11 @@
 					;  (evil-set-initial-state 'text-mode 'emacs))
   )
 
-;(use-package evil-escape
-;  :init
-;  (evil-escape-mode))
+(use-package evil-escape
+  :init
+  (evil-escape-mode)
+  :diminish evil-escape-mode)
+
 (defun switch-to-previous-buffer ()
       (interactive)
       (switch-to-buffer (other-buffer (current-buffer) 1)))
@@ -282,7 +294,7 @@
 (use-package diminish
   :ensure t
   :init
-  (diminish 'auto-fill-function "𝔽"))
+  (diminish 'auto-fill-function "F"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -348,9 +360,7 @@
   (browse-url-generic w3m-current-url)) ;; (1)
 
 
-(use-package w3m
-  :init
-  (define-key w3m-mode-map (kbd "C-c C-o") 'w3m-open-current-page-in-generic))
+(use-package w3m)
 
 
 (use-package shell-pop
@@ -358,3 +368,5 @@
   (custom-set-variables
    '(shell-pop-universal-key "C-c t")
    '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))))
+
+(add-hook 'org-mode-hook '(lambda () (org-indent-mode 1)))
