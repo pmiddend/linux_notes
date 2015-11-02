@@ -12,9 +12,10 @@
  '(custom-safe-themes
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
+ '(explicit-shell-file-name "/bin/bash")
  '(haskell-stylish-on-save nil)
  '(ido-use-virtual-buffers t)
- '(ido-vertical-disable-if-short t)
+ '(ido-vertical-disable-if-short nil)
  '(inhibit-startup-screen t)
  '(mouse-wheel-progressive-speed nil)
  '(mu4e-html2text-command "w3m -dump -T text/html")
@@ -35,7 +36,7 @@
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
- '(org-clock-into-drawer t t)
+ '(org-clock-into-drawer t)
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
@@ -63,7 +64,8 @@
 (setq package-enable-at-startup nil)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 ("marmalade" . "http://marmalade-repo.org/packages/")
-("melpa" . "http://melpa.milkbox.net/packages/")))
+("melpa" . "http://melpa.milkbox.net/packages/")
+("elpy" . "https://jorgenschaefer.github.io/packages/")))
 
 (package-initialize)
 
@@ -95,15 +97,15 @@
   (setq magit-completing-read-function 'magit-ido-completing-read)
 )
 
-(use-package projectile
-  :init
-  (projectile-global-mode)
-  (setq projectile-completion-system 'helm)
-  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
+;(use-package projectile
+;  :init
+;  (projectile-global-mode)
+;  (setq projectile-completion-system 'helm)
+;  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
 
-(use-package helm-projectile
-  :init
-  (helm-projectile-on))
+;(use-package helm-projectile
+;  :init
+;  (helm-projectile-on))
 
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
@@ -370,3 +372,12 @@
    '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))))
 
 (add-hook 'org-mode-hook '(lambda () (org-indent-mode 1)))
+
+; truncate org-clock-heading, respecting org-links in heading
+(setq org-clock-heading-function
+      (lambda ()
+        (let ((str (nth 4 (org-heading-components))) (lenlimit 20))
+          (if (> (length str) lenlimit)
+              (substring  (replace-regexp-in-string
+			  "\\[\\[.*?\\]\\[\\(.*?\\)\\]\\]" "\\1"
+			  str) 0 lenlimit)))))
