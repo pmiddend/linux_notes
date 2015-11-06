@@ -112,6 +112,8 @@
   (add-to-list 'exec-path my-cabal-path))
 
 (global-set-key (kbd "<f7>") 'magit-status)
+(global-set-key (kbd "C-x C-o") 'other-window)
+(global-set-key (kbd "C-x C-0") 'delete-window)
 
 (use-package avy
   :init
@@ -381,3 +383,5 @@
               (substring  (replace-regexp-in-string
 			  "\\[\\[.*?\\]\\[\\(.*?\\)\\]\\]" "\\1"
 			  str) 0 lenlimit)))))
+
+(setq org-ellipsis "⤵")
