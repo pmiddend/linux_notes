@@ -12,6 +12,7 @@
  '(custom-safe-themes
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
+ '(display-time-default-load-average nil)
  '(explicit-shell-file-name "/bin/bash")
  '(haskell-stylish-on-save nil)
  '(ido-use-virtual-buffers t)
@@ -36,7 +37,7 @@
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
- '(org-clock-into-drawer t)
+ '(org-clock-into-drawer t t)
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
@@ -48,6 +49,7 @@
  '(shell-pop-universal-key "C-c t")
  '(sunshine-location "Hannover, Germany")
  '(sunshine-units (quote metric))
+ '(use-dialog-box nil)
  '(w3m-search-default-engine "duckduckgo")
  '(w3m-search-engine-alist
    (quote
@@ -70,6 +72,7 @@
 (package-initialize)
 
 (menu-bar-mode -1)
+(tool-bar-mode -1)
 (scroll-bar-mode -1)
 
 ;; Bootstrap `use-package'
@@ -83,9 +86,18 @@
 
 (use-package grep)
 
-(use-package helm
+(use-package helm)
+
+(use-package smex
   :init
-  (global-set-key (kbd "M-x") 'helm-M-x))
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+
+;(use-package helm
+;  :init
+;  (global-set-key (kbd "M-x") 'helm-M-x))
 
 (use-package ido-ubiquitous
   :init
@@ -251,6 +263,7 @@
   (evil-mode 1)
   (evil-set-initial-state 'term-mode 'emacs)
   (evil-set-initial-state 'eshell-mode 'emacs)
+  (evil-set-initial-state 'pdf-view-mode 'emacs)
   (evil-set-initial-state 'circe-mode 'emacs)
 ;  (evil-define-state emacs
 ;    "Emacs state that can be exited with the escape key."
@@ -364,7 +377,9 @@
   (browse-url-generic w3m-current-url)) ;; (1)
 
 
-(use-package w3m)
+(use-package w3m
+  :config
+  (define-key w3m-mode-map "\C-c\C-o" 'w3m-open-current-page-in-generic)) 
 
 
 (use-package shell-pop
