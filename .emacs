@@ -13,6 +13,7 @@
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
  '(display-time-default-load-average nil)
+ '(dired-dwim-target t)
  '(explicit-shell-file-name "/bin/bash")
  '(haskell-stylish-on-save nil)
  '(ido-use-virtual-buffers t)
@@ -379,7 +380,7 @@
 
 (use-package w3m
   :config
-  (define-key w3m-mode-map "\C-c\C-o" 'w3m-open-current-page-in-generic)) 
+  (define-key w3m-mode-map "\C-c\C-o" 'w3m-open-current-page-in-generic))
 
 
 (use-package shell-pop
