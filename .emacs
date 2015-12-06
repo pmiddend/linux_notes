@@ -14,6 +14,21 @@
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
  '(display-time-default-load-average nil)
  '(dired-dwim-target t)
+ '(evil-surround-pairs-alist
+   (quote
+    ((40 "(" . ")")
+     (91 "[" . "]")
+     (123 "{" . "}")
+     (41 "(" . ")")
+     (93 "[" . "]")
+     (125 "{" . "}")
+     (35 "#{" . "}")
+     (98 "(" . ")")
+     (66 "{" . "}")
+     (62 "<" . ">")
+     (116 . evil-surround-read-tag)
+     (60 . evil-surround-read-tag)
+     (102 . evil-surround-function))))
  '(explicit-shell-file-name "/bin/bash")
  '(haskell-stylish-on-save nil)
  '(ido-use-virtual-buffers t)
@@ -108,6 +123,7 @@
   (setq ido-enable-flex-matching t)
   (setq org-completion-use-ido t)
   (setq magit-completing-read-function 'magit-ido-completing-read)
+  (setq ido-auto-merge-work-directories-length -1)
 )
 
 ;(use-package projectile
@@ -141,6 +157,11 @@
 (add-hook 'haskell-mode-hook  (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
 (define-key global-map "\C-cc" 'org-capture)
+(define-key global-map (kbd "S-<up>") 'evil-window-up) 
+(define-key global-map (kbd "S-<down>") 'evil-window-down) 
+(define-key global-map (kbd "S-<left>") 'evil-window-left) 
+(define-key global-map (kbd "S-<right>") 'evil-window-right) 
+
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-l" 'avy-goto-word-or-subword-1)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -304,7 +325,8 @@
 
 (use-package evil-surround
   :init
-  (global-evil-surround-mode 1))
+  (global-evil-surround-mode 1)
+  )
 
 (use-package undo-tree
   :diminish undo-tree-mode)
@@ -401,3 +423,5 @@
 			  str) 0 lenlimit)))))
 
 (setq org-ellipsis "⤵")
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
