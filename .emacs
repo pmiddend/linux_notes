@@ -157,10 +157,15 @@
 (add-hook 'haskell-mode-hook  (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
 (define-key global-map "\C-cc" 'org-capture)
-(define-key global-map (kbd "S-<up>") 'evil-window-up) 
-(define-key global-map (kbd "S-<down>") 'evil-window-down) 
-(define-key global-map (kbd "S-<left>") 'evil-window-left) 
-(define-key global-map (kbd "S-<right>") 'evil-window-right) 
+(define-key global-map (kbd "C-<up>") 'evil-window-up)
+(define-key global-map (kbd "C-<down>") 'evil-window-down)
+(define-key global-map (kbd "C-<left>") 'evil-window-left)
+(define-key global-map (kbd "C-<right>") 'evil-window-right)
+
+(use-package simpleclip
+  :init
+  (simpleclip-mode 1)
+  (define-key global-map (kbd "s-y") 'simpleclip-paste))
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-l" 'avy-goto-word-or-subword-1)
@@ -279,14 +284,14 @@
 ;  :init
 ;  (powerline-default-theme))
 
-(use-package evil
-  :init
-  (require 'ffap)
-  (evil-mode 1)
-  (evil-set-initial-state 'term-mode 'emacs)
-  (evil-set-initial-state 'eshell-mode 'emacs)
-  (evil-set-initial-state 'pdf-view-mode 'emacs)
-  (evil-set-initial-state 'circe-mode 'emacs)
+;(use-package evil
+;  :init
+;  (require 'ffap)
+;  (evil-mode 1)
+;  (evil-set-initial-state 'term-mode 'emacs)
+;  (evil-set-initial-state 'eshell-mode 'emacs)
+;  (evil-set-initial-state 'pdf-view-mode 'emacs)
+;  (evil-set-initial-state 'circe-mode 'emacs)
 ;  (evil-define-state emacs
 ;    "Emacs state that can be exited with the escape key."
 ;    :tag " <EE> "
@@ -302,7 +307,7 @@
 ;  (evil-set-initial-state 'fundamental-mode 'emacs)
 ;  (evil-set-initial-state 'prog-mode 'emacs)
 					;  (evil-set-initial-state 'text-mode 'emacs))
-  )
+;  )
 
 (use-package evil-escape
   :init
