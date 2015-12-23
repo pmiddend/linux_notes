@@ -100,7 +100,7 @@
 
 (setq use-package-always-ensure t)
 
-(use-package grep)
+;(use-package grep)
 
 (use-package helm)
 
@@ -116,15 +116,16 @@
 ;  (global-set-key (kbd "M-x") 'helm-M-x))
 
 (use-package ido-ubiquitous
-  :init
+  :config
   (ido-mode 1)
   (ido-everywhere 1)
   (ido-ubiquitous-mode 1)
   (setq ido-enable-flex-matching t)
   (setq org-completion-use-ido t)
   (setq magit-completing-read-function 'magit-ido-completing-read)
-  (setq ido-auto-merge-work-directories-length -1)
-)
+  (setq ido-auto-merge-work-directories-length -1))
+
+(use-package flx-ido)
 
 ;(use-package projectile
 ;  :init
@@ -429,4 +430,18 @@
 
 (setq org-ellipsis "⤵")
 
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
+
+(add-hook 'org-create-file-search-functions
+      '(lambda ()
+         (when (eq major-mode 'text-mode)
+           (number-to-string (line-number-at-pos)))))
+
+(add-hook 'org-execute-file-search-functions
+      '(lambda (search-string)
+         (when (eq major-mode 'text-mode)
+           (goto-line (string-to-number search-string)))))
