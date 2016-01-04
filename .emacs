@@ -12,8 +12,8 @@
  '(custom-safe-themes
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
- '(display-time-default-load-average nil)
  '(dired-dwim-target t)
+ '(display-time-default-load-average nil)
  '(evil-surround-pairs-alist
    (quote
     ((40 "(" . ")")
@@ -30,6 +30,7 @@
      (60 . evil-surround-read-tag)
      (102 . evil-surround-function))))
  '(explicit-shell-file-name "/bin/bash")
+ '(global-auto-complete-mode nil)
  '(haskell-stylish-on-save nil)
  '(ido-use-virtual-buffers t)
  '(ido-vertical-disable-if-short nil)
@@ -53,13 +54,18 @@
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
- '(org-clock-into-drawer t t)
+ '(org-clock-into-drawer t)
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
  '(org-icalendar-include-todo (quote all))
  '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
  '(org-log-done (quote time))
  '(org-modules (quote (org-bbdb org-habit)))
+ '(safe-local-variable-values
+   (quote
+    ((cmake-ide-dir . "/home/philipp/Programming/openstryker/level_reader/build")
+     (cmake-ide-dir . "/home/philipp/Programming/openstryker/ega_reader/build")
+     (cmake-ide-dir . "/home/philipp/Programming/openstryker/cmp_unpacker/build"))))
  '(savehist-mode t)
  '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
  '(shell-pop-universal-key "C-c t")
@@ -100,77 +106,91 @@
 
 (setq use-package-always-ensure t)
 
-;(use-package grep)
-
-(use-package helm)
-
 (use-package smex
-  :init
+  :config
   (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+  :bind ("M-x" . smex)
+  :bind ("M-X" . smex-major-mode-commands)
+  :bind ("C-c C-c M-x" . execute-extended-command))
 
-;(use-package helm
-;  :init
-;  (global-set-key (kbd "M-x") 'helm-M-x))
+(use-package magit
+  :bind ("<f7>" . magit-status))
 
 (use-package ido-ubiquitous
-  :config
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (ido-ubiquitous-mode 1)
+  :init
   (setq ido-enable-flex-matching t)
   (setq org-completion-use-ido t)
   (setq magit-completing-read-function 'magit-ido-completing-read)
-  (setq ido-auto-merge-work-directories-length -1))
+  (setq ido-auto-merge-work-directories-length -1)
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (ido-ubiquitous-mode 1))
 
 (use-package flx-ido)
 
-;(use-package projectile
-;  :init
-;  (projectile-global-mode)
-;  (setq projectile-completion-system 'helm)
-;  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
-
-;(use-package helm-projectile
-;  :init
-;  (helm-projectile-on))
-
-(let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
-  (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
-  (add-to-list 'exec-path my-cabal-path))
-
-(global-set-key (kbd "<f7>") 'magit-status)
 (global-set-key (kbd "C-x C-o") 'other-window)
 (global-set-key (kbd "C-x C-0") 'delete-window)
 
 (use-package avy
-  :init
-  (global-set-key (kbd "C-.") 'avy-goto-word-or-subword-1)
-  (global-set-key (kbd "C-'") 'avy-goto-char)
+;  :bind ("C-." . avy-goto-word-or-subword-1)
+;  :bind ("C-'" . avy-goto-char)
+  :bind ("C-l" . avy-goto-word-or-subword-1)
+  :config
   (avy-setup-default))
 
-(add-hook 'haskell-mode-hook 'subword-mode)
+(define-key global-map (kbd "C-<up>") 'windmove-up)
+(define-key global-map (kbd "C-<down>") 'windmove-down)
+(define-key global-map (kbd "C-<left>") 'windmove-left)
+(define-key global-map (kbd "C-<right>") 'windmove-right)
+(define-key global-map (kbd "<f1>") 'eww-list-bookmarks)
+(define-key global-map (kbd "<f2>") 'recompile)
 
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+(use-package org
+  :init
+  (setq org-clock-into-drawer t)
+  (setq org-drawers '("PROPERTIES" "LOGBOOK"))
+  (setq org-todo-keyword-faces '(("WAIT" . "yellow")))
+  (setq org-clock-heading-function
+      (lambda ()
+        (let ((str (nth 4 (org-heading-components))) (lenlimit 20))
+          (if (> (length str) lenlimit)
+              (substring  (replace-regexp-in-string
+			  "\\[\\[.*?\\]\\[\\(.*?\\)\\]\\]" "\\1"
+			  str) 0 lenlimit)))))
+  (setq org-ellipsis "⤵")
+  (setq org-clock-persist 'history)
+  :config
+  (add-hook 'org-mode-hook '(lambda () (org-indent-mode 1)))
+  (org-clock-persistence-insinuate)
+  (add-hook 'org-create-file-search-functions
+	    '(lambda ()
+	       (when (eq major-mode 'text-mode)
+		 (number-to-string (line-number-at-pos)))))
 
-(add-hook 'haskell-mode-hook  (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
-
-(define-key global-map "\C-cc" 'org-capture)
-(define-key global-map (kbd "C-<up>") 'evil-window-up)
-(define-key global-map (kbd "C-<down>") 'evil-window-down)
-(define-key global-map (kbd "C-<left>") 'evil-window-left)
-(define-key global-map (kbd "C-<right>") 'evil-window-right)
+  (add-hook 'org-execute-file-search-functions
+	    '(lambda (search-string)
+	       (when (eq major-mode 'text-mode)
+		 (goto-line (string-to-number search-string)))))
+  (defadvice org-open-at-point (around org-open-at-point-choose-browser activate)
+    (let ((browse-url-browser-function
+	   (cond ((equal (ad-get-arg 0) '(4))
+		  'browse-url-generic)
+		 ((equal (ad-get-arg 0) '(16))
+		  'choose-browser)
+		 (t
+		  (lambda (url &optional new)
+		    (w3m-browse-url url t)))
+		 )))
+      ad-do-it))
+  :bind ("\C-cl" . org-store-link)
+  :bind ("\C-ca" . org-agenda)
+  :bind ("\C-cc" . org-capture))
 
 (use-package simpleclip
-  :init
-  (simpleclip-mode 1)
-  (define-key global-map (kbd "s-y") 'simpleclip-paste))
-
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-l" 'avy-goto-word-or-subword-1)
-(define-key global-map "\C-ca" 'org-agenda)
+  :bind ("s-y" . simpleclip-paste)
+  :config
+  (simpleclip-mode 1))
 
 (setq backup-directory-alist
           `((".*" . ,temporary-file-directory)))
@@ -178,26 +198,16 @@
           `((".*" ,temporary-file-directory t)))
 
 (use-package rainbow-delimiters
-  :init
+  :config
   (rainbow-delimiters-mode))
 
 (show-paren-mode)
 
 (use-package expand-region
-  :init
-  (global-set-key (kbd "C-=") 'er/expand-region))
-
-;(defun er/add-text-mode-expansions ()
-;  (make-variable-buffer-local 'er/try-expand-list)
-;  (setq er/try-expand-list (append
-;                            er/try-expand-list
-;                            '(mark-paragraph
-;                              mark-page))))
-;
-;(add-hook 'haskell-mode-hook 'er/add-text-mode-expansions)
+  :bind ("C-=" . er/expand-region))
 
 (use-package zenburn-theme
-  :init
+  :config
   (load-theme 'zenburn t))
 
 (savehist-mode 1)
@@ -206,9 +216,9 @@
         search-ring
         regexp-search-ring))
 
-(add-hook 'eww-mode-hook
-	          (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow)))
-;(global-set-key (kbd "C-x b") 'helm-mini)
+(use-package eww-lnum
+  :config
+  (add-hook 'eww-mode-hook (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow))))
 
 (use-package hydra)
 
@@ -230,12 +240,6 @@
 
 (winner-mode)
 
-(use-package helm-spotify
-  :init
-  (defhydra hydra-misc (global-map "C-c m" :color red :hint nil)
-    "Misc: _s_potify"
-    ("s" helm-spotify)))
-
 (setq browse-url-new-window-flag t)
 
 (add-hook 'eshell-mode-hook
@@ -245,40 +249,11 @@
 
 (setq rng-nxml-auto-validate-flag nil)
 
-(setq org-clock-into-drawer t)
-(setq org-drawers '("PROPERTIES" "LOGBOOK"))
-
 (load "~/.emacs.d/personal-init")
 
-
 (use-package smartparens
-  :init (smartparens-global-mode t)
+  :config (smartparens-global-mode t)
   :diminish smartparens-mode)
-
-;(use-package which-key
-;  :diminish which-key-mode
-;  :init (which-key-mode))
-
-(use-package bm
-  :init
-  (define-fringe-bitmap 'bm-marker-left [#xF8   ; ▮ ▮ ▮ ▮ ▮ 0 0 0
-                                       #xFC   ; ▮ ▮ ▮ ▮ ▮ ▮ 0 0
-                                       #xFE   ; ▮ ▮ ▮ ▮ ▮ ▮ ▮ 0
-                                       #x0F   ; 0 0 0 0 ▮ ▮ ▮ ▮
-                                       #x0F   ; 0 0 0 0 ▮ ▮ ▮ ▮
-                                       #xFE   ; ▮ ▮ ▮ ▮ ▮ ▮ ▮ 0
-                                       #xFC   ; ▮ ▮ ▮ ▮ ▮ ▮ 0 0
-                                       #xF8])
-  (defhydra hydra-bm (:color red :hint nil :idle 1.0)
-  "Bookmarks"
-    ("t" bm-toggle "Toggle")
-    ("j" bm-next "Next")
-    ("k" bm-previous "Previous")
-    ("l" bm-show "Show local")
-    ("A" bm-show-all "Show all")
-    ("a" bm-bookmark-annotate)
-    ("x" bm-remove-all-current-buffer :color blue))
-  (global-set-key (kbd "C-c b") 'hydra-bm/body))
 
 ; klappt mit circe nicht.
 ;(use-package powerline
@@ -310,56 +285,49 @@
 					;  (evil-set-initial-state 'text-mode 'emacs))
 ;  )
 
-(use-package evil-escape
-  :init
-  (evil-escape-mode)
-  :diminish evil-escape-mode)
+;(use-package evil-escape
+;  :init
+;  (evil-escape-mode)
+;  :diminish evil-escape-mode)
 
 (defun switch-to-previous-buffer ()
       (interactive)
       (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-(use-package evil-leader
-  :init
-  (global-evil-leader-mode)
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-   "fs" 'save-buffer
-   "<tab>" 'switch-to-previous-buffer
-   "s" 'eshell
-   "<SPC>" 'avy-goto-word-or-subword-1))
+;(use-package evil-leader
+;  :init
+;  (global-evil-leader-mode)
+;  (evil-leader/set-leader "<SPC>")
+;  (evil-leader/set-key
+;   "fs" 'save-buffer
+;   "<tab>" 'switch-to-previous-buffer
+;   "s" 'eshell
+;   "<SPC>" 'avy-goto-word-or-subword-1))
 
-(use-package evil-surround
-  :init
-  (global-evil-surround-mode 1)
-  )
+;(use-package evil-surround
+;  :init
+;  (global-evil-surround-mode 1)
+;  )
 
 (use-package undo-tree
   :diminish undo-tree-mode)
 
 (use-package diminish
-  :ensure t
   :init
   (diminish 'auto-fill-function "F"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
-
-(use-package org-page)
-
-(setq org-todo-keyword-faces
-  '(("WAIT" . "yellow")))
 
 (use-package bbdb
   :init
   (bbdb-initialize))
 
 (use-package org-bullets
-  :init
+  :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (use-package org-cliplink
-  :init
-  (global-set-key (kbd "C-x p i") 'org-cliplink))
+  :bind ("C-x p i" . org-cliplink))
 
 (defun nxml-pretty-format ()
     (interactive)
@@ -380,6 +348,8 @@
 (use-package gist)
 
 (use-package ido-vertical-mode
+  :config
+  (ido-vertical-mode 1)
   :init
 ;  (setq ido-use-faces t)
 ;  (set-face-attribute 'ido-vertical-first-match-face nil
@@ -389,7 +359,6 @@
 ;                    :foreground "white")
 ;  (set-face-attribute 'ido-vertical-match-face nil
 ;                    :foreground "#b00000")
-  (ido-vertical-mode 1)
   (setq ido-vertical-define-keys 'C-n-C-p-up-and-down))
 
 ; dired shouldn't leave a trail of buffers
@@ -405,11 +374,9 @@
   (interactive)
   (browse-url-generic w3m-current-url)) ;; (1)
 
-
 (use-package w3m
   :config
   (define-key w3m-mode-map "\C-c\C-o" 'w3m-open-current-page-in-generic))
-
 
 (use-package shell-pop
   :init
@@ -417,31 +384,18 @@
    '(shell-pop-universal-key "C-c t")
    '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))))
 
-(add-hook 'org-mode-hook '(lambda () (org-indent-mode 1)))
-
-; truncate org-clock-heading, respecting org-links in heading
-(setq org-clock-heading-function
-      (lambda ()
-        (let ((str (nth 4 (org-heading-components))) (lenlimit 20))
-          (if (> (length str) lenlimit)
-              (substring  (replace-regexp-in-string
-			  "\\[\\[.*?\\]\\[\\(.*?\\)\\]\\]" "\\1"
-			  str) 0 lenlimit)))))
-
-(setq org-ellipsis "⤵")
-
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(setq org-clock-persist 'history)
-(org-clock-persistence-insinuate)
+(use-package projectile
+  :init
+  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
+  :config
+  (add-hook 'c-mode-common-hook 'projectile-mode))
 
-(add-hook 'org-create-file-search-functions
-      '(lambda ()
-         (when (eq major-mode 'text-mode)
-           (number-to-string (line-number-at-pos)))))
 
-(add-hook 'org-execute-file-search-functions
-      '(lambda (search-string)
-         (when (eq major-mode 'text-mode)
-           (goto-line (string-to-number search-string)))))
+(use-package popwin
+  :config
+  (popwin-mode 1))
+
+(use-package dictcc)
