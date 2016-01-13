@@ -401,6 +401,12 @@
 (use-package dictcc)
 
 (use-package weather-metno
-  :init (setq weather-metno-location-name "Hannover, Germany"
+  :init
+  (setq
+      weather-metno-location-name "Hannover, Germany"
       weather-metno-location-latitude 52
       weather-metno-location-longitude 9))
+
+(use-package nyan-mode
+  :config
+  (nyan-mode))
