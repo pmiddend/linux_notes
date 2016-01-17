@@ -57,8 +57,9 @@
  '(org-clock-into-drawer t)
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
- '(org-icalendar-include-todo (quote all))
- '(org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
+ '(org-icalendar-include-bbdb-anniversaries t)
+ '(org-icalendar-include-todo t)
+ '(org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo todo-start)))
  '(org-log-done (quote time))
  '(org-modules (quote (org-bbdb org-habit)))
  '(safe-local-variable-values
@@ -115,6 +116,9 @@
 
 (use-package magit
   :bind ("<f7>" . magit-status))
+
+(use-package ido
+  :bind ("<f12>" . ido-switch-buffer))
 
 (use-package ido-ubiquitous
   :init
@@ -410,3 +414,20 @@
 (use-package nyan-mode
   :config
   (nyan-mode))
+
+(defun next-word (p)
+   "Move point to the beginning of the next word, past any spaces"
+   (interactive "d")
+   (forward-word)
+   (forward-word)
+   (backward-word))
+
+(global-set-key "\M-f" 'next-word)
+
+(use-package company-emoji
+  :config
+  (add-to-list 'company-backends 'company-emoji)
+  (set-fontset-font
+   t 'symbol
+   (font-spec :family "Symbola") nil 'prepend))
+
