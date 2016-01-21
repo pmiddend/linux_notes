@@ -415,15 +415,6 @@
   :config
   (nyan-mode))
 
-(defun next-word (p)
-   "Move point to the beginning of the next word, past any spaces"
-   (interactive "d")
-   (forward-word)
-   (forward-word)
-   (backward-word))
-
-(global-set-key "\M-f" 'next-word)
-
 (use-package company-emoji
   :config
   (add-to-list 'company-backends 'company-emoji)
@@ -431,3 +422,7 @@
    t 'symbol
    (font-spec :family "Symbola") nil 'prepend))
 
+(use-package link-hint
+  :bind
+  ("C-c o o" . link-hint-open-link)
+  ("C-c o c" . link-hint-copy-link))
