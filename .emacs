@@ -49,19 +49,21 @@
       (file))
      ("\\.\\(?:jp?g\\|png\\)\\'" "display"
       (file)))))
- '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
  '(org-agenda-span 14)
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
  '(org-clock-into-drawer t)
+ '(org-drill-add-random-noise-to-intervals-p t)
+ '(org-drill-leech-method (quote warn))
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
  '(org-icalendar-include-bbdb-anniversaries t)
  '(org-icalendar-include-todo t)
  '(org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo todo-start)))
  '(org-log-done (quote time))
- '(org-modules (quote (org-bbdb org-habit)))
+ '(org-lowest-priority 90)
+ '(org-modules (quote (org-bbdb org-habit org-drill)))
  '(safe-local-variable-values
    (quote
     ((cmake-ide-dir . "/home/philipp/Programming/openstryker/level_reader/build")
@@ -151,6 +153,7 @@
 (define-key global-map (kbd "<f2>") 'recompile)
 
 (use-package org
+  :load-path ("~/org-mode/lisp" "~/org-mode/contrib/lisp")
   :init
   (setq org-clock-into-drawer t)
   (setq org-drawers '("PROPERTIES" "LOGBOOK"))
