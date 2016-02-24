@@ -9,6 +9,7 @@
  '(browse-url-browser-function (quote w3m-goto-url-new-session))
  '(browse-url-generic-program "google-chrome")
  '(custom-enabled-themes (quote (zenburn)))
+ '(org-trello-files '("~/notes/trello.org"))
  '(custom-safe-themes
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
@@ -429,3 +430,35 @@
   :bind
   ("C-c o o" . link-hint-open-link)
   ("C-c o c" . link-hint-copy-link))
+
+(setq solar-n-hemi-seasons
+      '("Frühlingsanfang" "Sommeranfang" "Herbstanfang" "Winteranfang"))
+
+(setq holiday-general-holidays
+      '((holiday-fixed 1 1 "Neujahr")
+        (holiday-fixed 5 1 "1. Mai")
+        (holiday-fixed 10 3 "Tag der Deutschen Einheit")))
+
+;; Feiertage fÃ¼r Bayern, weitere auskommentiert
+(setq holiday-christian-holidays
+      '((holiday-float 12 0 -4 "1. Advent" 24)
+        (holiday-float 12 0 -3 "2. Advent" 24)
+        (holiday-float 12 0 -2 "3. Advent" 24)
+        (holiday-float 12 0 -1 "4. Advent" 24)
+        (holiday-fixed 12 25 "1. Weihnachtstag")
+        (holiday-fixed 12 26 "2. Weihnachtstag")
+        ;(holiday-fixed 1 6 "Heilige Drei Könige")
+        ;(holiday-easter-etc -48 "Rosenmontag")
+        ;; (holiday-easter-etc -3 "GrÃ¼ndonnerstag")
+        (holiday-easter-etc  -2 "Karfreitag")
+        (holiday-easter-etc   0 "Ostersonntag")
+        (holiday-easter-etc  +1 "Ostermontag")
+        (holiday-easter-etc +39 "Christi Himmelfahrt")
+        (holiday-easter-etc +49 "Pfingstsonntag")
+        (holiday-easter-etc +50 "Pfingstmontag")
+        ;(holiday-easter-etc +60 "Fronleichnam")
+        ;(holiday-fixed 8 15 "Mariae Himmelfahrt")
+        (holiday-fixed 11 1 "Allerheiligen")
+        ;; (holiday-float 11 3 1 "Buss- und Bettag" 16)
+        ;(holiday-float 11 0 1 "Totensonntag" 20)
+	))
