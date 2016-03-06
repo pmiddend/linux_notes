@@ -1,4 +1,22 @@
 #!/bin/bash
+# Installation guide:
+# put a file "wildcard.desktop" in
+# 
+# ~/.local/share/applications/wildcard.desktop
+#
+# containing the following (note the variable you have to replace)
+#
+# [Desktop Entry]
+# Type=Application
+# Version=1.0
+# Name=wildcard
+# Path=$path_to_wildcard_sh
+# Exec=wildcard.sh
+# Terminal=false
+#
+# associate all known mime types with the program (or rather, the desktop file), execute:
+#
+# xdg-mime default wildcard.desktop $(cat /usr/share/mime/types)
 
 readonly input_filename="$1"
 readonly input_mime="$(xdg-mime query filetype "$input_filename")"
