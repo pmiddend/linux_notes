@@ -17,10 +17,13 @@
 # associate all known mime types with the program (or rather, the desktop file), execute:
 #
 # xdg-mime default wildcard.desktop $(cat /usr/share/mime/types)
+#
+# associate with magnet scheme
+#
+# xdg-mime default wildcard.desktop x-scheme-handler/magnet
 
 readonly input_filename="$1"
 readonly input_mime="$(xdg-mime query filetype "$input_filename")"
-
 
 echo "input: $input_filename" >> /tmp/wildcard_output
 echo "mime: $input_mime" >> /tmp/wildcard_output
@@ -137,6 +140,22 @@ function open_text() {
     fi
 }
 
+function open_magnet() {
+    if program_exists transmission-gtk; then
+	transmission-gtk "$1" || output_error_message "error starting transmission-gtk"
+    else
+	output_error_message "no magnet handlers available"
+    fi
+}
+
+if [[ $input_mime == "" ]]; then
+    if [[ $input_filename =~ ^magnet: ]]; then
+	open_magnet "$input_filename";
+    else
+	output_error_message "mime empty, name was \"$input_filename\""
+    fi
+fi
+
 case $input_mime in
     "inode/directory" | "inode/mount-point")
 	open_directory "$input_filename"
@@ -162,6 +181,7 @@ case $input_mime in
     text/*)
 	open_text "$input_filename"
 	;;
+    # TODO: torrent files
     *)
 	output_error_message "association not found for file \"$input_filename\", mime \"$input_mime\""
 	;;
