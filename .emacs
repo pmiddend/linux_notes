@@ -7,9 +7,8 @@
  '(bbdb-phone-style nil)
  '(bm-highlight-style (quote bm-highlight-only-fringe))
  '(browse-url-browser-function (quote w3m-goto-url-new-session))
- '(browse-url-generic-program "google-chrome")
+ '(browse-url-generic-program "google-chrome-stable")
  '(custom-enabled-themes (quote (zenburn)))
- '(org-trello-files '("~/notes/trello.org"))
  '(custom-safe-themes
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
@@ -50,12 +49,14 @@
       (file))
      ("\\.\\(?:jp?g\\|png\\)\\'" "display"
       (file)))))
+ '(org-agenda-files (quote ("~/notes/todo.org")))
  '(org-agenda-span 14)
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
  '(org-clock-into-drawer t)
  '(org-drill-add-random-noise-to-intervals-p t)
+ '(org-drill-learn-fraction 0.3)
  '(org-drill-leech-method (quote warn))
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
@@ -65,12 +66,14 @@
  '(org-log-done (quote time))
  '(org-lowest-priority 90)
  '(org-modules (quote (org-bbdb org-habit org-drill)))
+ '(org-trello-files (quote ("~/notes/trello.org")))
  '(safe-local-variable-values
    (quote
     ((cmake-ide-dir . "/home/philipp/Programming/openstryker/level_reader/build")
      (cmake-ide-dir . "/home/philipp/Programming/openstryker/ega_reader/build")
      (cmake-ide-dir . "/home/philipp/Programming/openstryker/cmp_unpacker/build"))))
  '(savehist-mode t)
+ '(sentence-end-double-space nil)
  '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
  '(shell-pop-universal-key "C-c t")
  '(sunshine-location "Hannover, Germany")
@@ -90,7 +93,8 @@
 
 (require 'package)
 (setq package-enable-at-startup nil)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+(setq package-archives '(
+("gnu" . "http://elpa.gnu.org/packages/")
 ("marmalade" . "http://marmalade-repo.org/packages/")
 ("melpa" . "http://melpa.milkbox.net/packages/")
 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
@@ -152,6 +156,9 @@
 (define-key global-map (kbd "C-<right>") 'windmove-right)
 (define-key global-map (kbd "<f1>") 'eww-list-bookmarks)
 (define-key global-map (kbd "<f2>") 'recompile)
+
+;(add-to-list 'load-path "~/Programming/org-rtm")
+;(require 'org-rtm)
 
 (use-package org
   :load-path ("~/org-mode/lisp" "~/org-mode/contrib/lisp")
@@ -462,3 +469,6 @@
         ;; (holiday-float 11 3 1 "Buss- und Bettag" 16)
         ;(holiday-float 11 0 1 "Totensonntag" 20)
 	))
+
+(add-to-list 'default-frame-alist
+             '(font . "Source Code Pro-8"))
