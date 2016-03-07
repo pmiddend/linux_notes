@@ -37,6 +37,7 @@
  '(inhibit-startup-screen t)
  '(mouse-wheel-progressive-speed nil)
  '(mu4e-html2text-command "w3m -dump -T text/html")
+ '(mu4e-view-show-images nil)
  '(newsticker-url-list
    (quote
     (("planet emacs" "http://planet.emacsen.org/atom.xml" nil nil nil))))
@@ -356,7 +357,8 @@
 (use-package org-pdfview
   :init
   (pdf-tools-install)
-  (delete '("\\.pdf\\'" . default) org-file-apps)
+  :config
+  ;(delete '("\\.pdf\\'" . default) org-file-apps)
   (add-to-list 'org-file-apps '("\\.pdf\\'" . org-pdfview-open))
   (add-to-list 'org-file-apps '("\\.pdf::\\([[:digit:]]+\\)\\'" . org-pdfview-open)))
 
