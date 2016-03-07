@@ -100,6 +100,18 @@ function open_image() {
     fi
 }
 
+function open_pdf() {
+    local filename="$1"
+
+    if program_exists zathura; then
+	zathura "$filename" || output_error_message "error opening zathura"
+    elif program_exists evince; then
+	evince "$filename" || output_error_message "error opening evince"
+    else
+	output_error_message "No image viewer found"
+    fi
+}
+
 function open_browser() {
     local filename="$1"
 
@@ -165,6 +177,9 @@ case $input_mime in
 	;;
     "application/ogg" | "application/x-ogg" | "application/sdp" | "application/smil" | "application/x-smil" | "application/streamingmedia" | "application/x-streamingmedia" | "application/vnd.rn-realmedia" | "application/vnd.rn-realmedia-vbr" | "audio/aac" | "audio/x-aac" | "audio/m4a" | "audio/x-m4a" | "audio/mp1" | "audio/x-mp1" | "audio/mp2" | "audio/x-mp2" | "audio/mp3" | "audio/x-mp3" | "audio/mpeg" | "audio/x-mpeg" | "audio/mpegurl" | "audio/x-mpegurl" | "audio/mpg" | "audio/x-mpg" | "audio/rn-mpeg" | "audio/ogg" | "audio/scpls" | "audio/x-scpls" | "audio/vnd.rn-realaudio" | "audio/wav" | "audio/x-pn-windows-pcm" | "audio/x-realaudio" | "audio/x-pn-realaudio" | "audio/x-ms-wma" | "audio/x-pls" | "audio/x-wav")
 	open_video "$input_filename"
+	;;
+    application/pdf)
+	open_pdf "$input_filename"
 	;;
     video/*)
 	open_video "$input_filename"
