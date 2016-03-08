@@ -6,8 +6,6 @@
  '(bbdb-file "~/notes/bbdb")
  '(bbdb-phone-style nil)
  '(bm-highlight-style (quote bm-highlight-only-fringe))
- '(browse-url-browser-function (quote w3m-goto-url-new-session))
- '(browse-url-generic-program "google-chrome-stable")
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
@@ -188,17 +186,17 @@
 	    '(lambda (search-string)
 	       (when (eq major-mode 'text-mode)
 		 (goto-line (string-to-number search-string)))))
-  (defadvice org-open-at-point (around org-open-at-point-choose-browser activate)
-    (let ((browse-url-browser-function
-	   (cond ((equal (ad-get-arg 0) '(4))
-		  'browse-url-generic)
-		 ((equal (ad-get-arg 0) '(16))
-		  'choose-browser)
-		 (t
-		  (lambda (url &optional new)
-		    (w3m-browse-url url t)))
-		 )))
-      ad-do-it))
+  ;; (defadvice org-open-at-point (around org-open-at-point-choose-browser activate)
+  ;;   (let ((browse-url-browser-function
+  ;; 	   (cond ((equal (ad-get-arg 0) '(4))
+  ;; 		  'browse-url-generic)
+  ;; 		 ((equal (ad-get-arg 0) '(16))
+  ;; 		  'choose-browser)
+  ;; 		 (t
+  ;; 		  (lambda (url &optional new)
+  ;; 		    (w3m-browse-url url t)))
+  ;; 		 )))
+  ;;     ad-do-it))
   :bind ("\C-cl" . org-store-link)
   :bind ("\C-ca" . org-agenda)
   :bind ("\C-cc" . org-capture))
