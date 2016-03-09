@@ -135,7 +135,10 @@
   :config
   (ido-mode 1)
   (ido-everywhere 1)
-  (ido-ubiquitous-mode 1))
+  (ido-ubiquitous-mode 1)
+  (put 'dired-do-rename 'ido 'find-file)
+  (put 'dired-do-copy 'ido 'find-file)
+  )
 
 (use-package flx-ido)
 
@@ -460,7 +463,7 @@
         (holiday-easter-etc  -2 "Karfreitag")
         (holiday-easter-etc   0 "Ostersonntag")
         (holiday-easter-etc  +1 "Ostermontag")
-        (holiday-easter-etc +39 "Christi Himmelfahrt")
+1        (holiday-easter-etc +39 "Christi Himmelfahrt")
         (holiday-easter-etc +49 "Pfingstsonntag")
         (holiday-easter-etc +50 "Pfingstmontag")
         ;(holiday-easter-etc +60 "Fronleichnam")
@@ -472,3 +475,14 @@
 
 (add-to-list 'default-frame-alist
              '(font . "Source Code Pro-8"))
+
+(defun dired-open-xdg ()
+  "Try to run `xdg-open' to open the file under point."
+  (interactive)
+  (if (executable-find "xdg-open")
+      (let ((file (ignore-errors (dired-get-file-for-visit))))
+        (start-process "dired-open" nil
+                       "xdg-open" (file-truename file)))
+    nil))
+
+(define-key dired-mode-map "F" 'dired-open-xdg)
