@@ -463,7 +463,7 @@
         (holiday-easter-etc  -2 "Karfreitag")
         (holiday-easter-etc   0 "Ostersonntag")
         (holiday-easter-etc  +1 "Ostermontag")
-1        (holiday-easter-etc +39 "Christi Himmelfahrt")
+        (holiday-easter-etc +39 "Christi Himmelfahrt")
         (holiday-easter-etc +49 "Pfingstsonntag")
         (holiday-easter-etc +50 "Pfingstmontag")
         ;(holiday-easter-etc +60 "Fronleichnam")
