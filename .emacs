@@ -6,6 +6,8 @@
  '(bbdb-file "~/notes/bbdb")
  '(bbdb-phone-style nil)
  '(bm-highlight-style (quote bm-highlight-only-fringe))
+ '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-generic-program "google-chrome-stable")
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
