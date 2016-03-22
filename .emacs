@@ -39,9 +39,6 @@
  '(newsticker-url-list
    (quote
     (("planet emacs" "http://planet.emacsen.org/atom.xml" nil nil nil))))
- '(op/site-main-title "pmiddend's Blog")
- '(op/site-sub-title
-   "Stuff about Haskell, nutrition, learning and life in general")
  '(openwith-associations
    (quote
     (("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\|mkv\\)\\'" "mpv"

@@ -1,0 +1,16 @@
+[global]
+    allow_markup = yes
+    padding = 10
+    horizontal_padding = 10
+    geometry = "600x20+560+0"
+    alignment = center
+    sticky_history = yes
+    format = "<b>%s %p</b>\n%b"
+
+[frame]
+    width = 2
+    color = "#E53935"
+
+[urgency_normal]
+    background = "#2f343f"
+    foreground = "#ffffff"
