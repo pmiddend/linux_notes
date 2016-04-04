@@ -30,6 +30,9 @@
      (60 . evil-surround-read-tag)
      (102 . evil-surround-function))))
  '(explicit-shell-file-name "/bin/bash")
+ '(flycheck-clang-language-standard "c++11")
+ '(flycheck-cppcheck-language-standard "-std=c++11")
+ '(flycheck-gcc-language-standard "c++11")
  '(global-auto-complete-mode nil)
  '(haskell-stylish-on-save nil)
  '(ido-use-virtual-buffers t)
@@ -58,6 +61,7 @@
  '(org-drill-leech-method (quote warn))
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
+ '(org-hide-emphasis-markers t)
  '(org-icalendar-include-bbdb-anniversaries t)
  '(org-icalendar-include-todo t)
  '(org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo todo-start)))
@@ -106,7 +110,11 @@
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-    (package-install 'use-package))
+  (package-install 'use-package))
+
+(use-package mode-icons
+  :config
+  (mode-icons-mode))
 
 (require 'use-package)
 
@@ -188,6 +196,9 @@
 	    '(lambda (search-string)
 	       (when (eq major-mode 'text-mode)
 		 (goto-line (string-to-number search-string)))))
+  (font-lock-add-keywords 'org-mode
+                        '(("^ +\\([-*]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
   ;; (defadvice org-open-at-point (around org-open-at-point-choose-browser activate)
   ;;   (let ((browse-url-browser-function
   ;; 	   (cond ((equal (ad-get-arg 0) '(4))

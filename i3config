@@ -178,3 +178,7 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 
 # thin borders
 #hide_edge_borders both
+
+
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
