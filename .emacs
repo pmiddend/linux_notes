@@ -103,9 +103,10 @@
 
 (package-initialize)
 
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+(if window-system
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1))
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
@@ -484,7 +485,7 @@
 	))
 
 (add-to-list 'default-frame-alist
-             '(font . "Source Code Pro-8"))
+             '(font . "Inconsolata-10"))
 
 (defun dired-open-xdg ()
   "Try to run `xdg-open' to open the file under point."
@@ -496,3 +497,6 @@
     nil))
 
 (define-key dired-mode-map "F" 'dired-open-xdg)
+
+; Scripts automatisch ausführbar machen beim Speichern
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
