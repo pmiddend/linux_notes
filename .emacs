@@ -93,6 +93,8 @@
  ;; If there is more than one, they won't work right.
  )
 
+(setq temporary-file-directory "~/tmp/emacs")
+
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(
