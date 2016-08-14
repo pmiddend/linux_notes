@@ -21,7 +21,6 @@
 # associate with magnet scheme
 #
 # xdg-mime default wildcard.desktop x-scheme-handler/magnet
-
 readonly input_filename="$1"
 readonly input_mime="$(xdg-mime query filetype "$input_filename")"
 
@@ -179,6 +178,9 @@ case $input_mime in
 	open_video "$input_filename"
 	;;
     application/pdf)
+	open_pdf "$input_filename"
+	;;
+    application/postscript)
 	open_pdf "$input_filename"
 	;;
     video/*)
