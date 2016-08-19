@@ -7,6 +7,8 @@
     sticky_history = yes
     format = "<b>%s %p</b>\n%b"
     idle_threshold = 5
+    show_icons = yes
+    icon_position = left
 
 [frame]
     width = 2

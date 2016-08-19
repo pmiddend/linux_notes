@@ -12,6 +12,7 @@
      (output-dvi "xdg-open")
      (output-pdf "xdg-open")
      (output-html "xdg-open"))))
+ '(alert-default-style (quote libnotify))
  '(bbdb-file "~/notes/bbdb")
  '(bbdb-phone-style nil)
  '(bm-highlight-style (quote bm-highlight-only-fringe))
@@ -25,6 +26,9 @@
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
  '(dired-dwim-target t)
  '(display-time-default-load-average nil)
+ '(elfeed-feeds
+   (quote
+    ("http://boingboing.net/feed" "http://boingboing.net/" "https://blog.fefe.de/rss.xml")))
  '(evil-surround-pairs-alist
    (quote
     ((40 "(" . ")")
@@ -55,18 +59,22 @@
  '(newsticker-url-list
    (quote
     (("planet emacs" "http://planet.emacsen.org/atom.xml" nil nil nil))))
+ '(op/site-main-title "pmiddend's Blog")
+ '(op/site-sub-title
+   "Stuff about Haskell, nutrition, learning and life in general")
  '(openwith-associations
    (quote
     (("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\|mkv\\)\\'" "mpv"
       (file))
      ("\\.\\(?:jp?g\\|png\\)\\'" "display"
       (file)))))
- '(org-agenda-files (quote ("~/notes/todo.org")))
+ '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
  '(org-agenda-span 14)
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
- '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t))))
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t) (shell . t))))
  '(org-clock-into-drawer t)
+ '(org-confirm-babel-evaluate nil)
  '(org-drill-add-random-noise-to-intervals-p t)
  '(org-drill-learn-fraction 0.3)
  '(org-drill-leech-method (quote warn))
@@ -90,13 +98,14 @@
      (cmake-ide-dir . "/home/philipp/Programming/openstryker/cmp_unpacker/build"))))
  '(savehist-mode t)
  '(select-enable-primary t)
+ '(scroll-bar-mode nil)
  '(sentence-end-double-space nil)
  '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
  '(shell-pop-universal-key "C-c t")
  '(sp-autoinsert-pair nil)
  '(sunshine-location "Hannover, Germany")
  '(sunshine-units (quote metric))
- '(twittering-timer-interval 180)
+ '(tool-bar-mode nil)
  '(use-dialog-box nil)
  '(w3m-search-default-engine "duckduckgo")
  '(w3m-search-engine-alist
@@ -158,6 +167,7 @@
 (use-package flx-ido)
 
 (global-set-key (kbd "C-x C-o") 'other-window)
+(global-set-key (kbd "C-x k") 'kill-this-buffer)
 (global-set-key (kbd "C-x C-0") 'delete-window)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
@@ -529,3 +539,6 @@
 (use-package calfw
   :init
   (require 'calfw-org))
+(use-package ace-link
+  :init (ace-link-setup-default)
+  (define-key org-mode-map (kbd "M-o") 'ace-link-org))
