@@ -183,6 +183,9 @@ case $input_mime in
     application/postscript)
 	open_pdf "$input_filename"
 	;;
+    application/x-bittorrent)
+	transmission-gtk "$input_filename"
+	;;
     video/*)
 	open_video "$input_filename"
 	;;
