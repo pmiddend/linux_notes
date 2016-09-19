@@ -72,7 +72,6 @@
  '(org-agenda-span 14)
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
- '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t) (shell . t))))
  '(org-clock-into-drawer t)
  '(org-confirm-babel-evaluate nil)
  '(org-drill-add-random-noise-to-intervals-p t)
@@ -90,15 +89,15 @@
  '(org-trello-files (quote ("~/notes/trello.org")))
  '(package-selected-packages
    (quote
-    (auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
+    (vdiff better-shell org-pomodoro elfeed jenkins auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
  '(safe-local-variable-values
    (quote
     ((cmake-ide-dir . "/home/philipp/Programming/openstryker/level_reader/build")
      (cmake-ide-dir . "/home/philipp/Programming/openstryker/ega_reader/build")
      (cmake-ide-dir . "/home/philipp/Programming/openstryker/cmp_unpacker/build"))))
  '(savehist-mode t)
- '(select-enable-primary t)
  '(scroll-bar-mode nil)
+ '(select-enable-primary t)
  '(sentence-end-double-space nil)
  '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
  '(shell-pop-universal-key "C-c t")
@@ -182,7 +181,7 @@
 (define-key global-map (kbd "C-<down>") 'windmove-down)
 (define-key global-map (kbd "C-<left>") 'windmove-left)
 (define-key global-map (kbd "C-<right>") 'windmove-right)
-(define-key global-map (kbd "<f1>") 'eww-list-bookmarks)
+(define-key global-map (kbd "<f1>") 'eudc-get-phone)
 (define-key global-map (kbd "<f2>") 'recompile)
 
 ;(add-to-list 'load-path "~/Programming/org-rtm")
@@ -512,7 +511,7 @@
 	))
 
 (add-to-list 'default-frame-alist
-             '(font . "Source Code Pro-12"))
+             '(font . "Source Code Pro-14"))
 
 (defun dired-open-xdg ()
   "Try to run `xdg-open' to open the file under point."
@@ -542,3 +541,7 @@
 (use-package ace-link
   :init (ace-link-setup-default)
   (define-key org-mode-map (kbd "M-o") 'ace-link-org))
+
+(use-package better-shell
+  :config
+  (global-set-key (kbd "C-'") (lambda () (interactive) (better-shell-shell 4))))
