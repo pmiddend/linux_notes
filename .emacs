@@ -89,7 +89,7 @@
  '(org-trello-files (quote ("~/notes/trello.org")))
  '(package-selected-packages
    (quote
-    (vdiff better-shell org-pomodoro elfeed jenkins auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
+    (vlf restclient vdiff better-shell org-pomodoro elfeed jenkins auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
  '(safe-local-variable-values
    (quote
     ((cmake-ide-dir . "/home/philipp/Programming/openstryker/level_reader/build")
@@ -101,7 +101,12 @@
  '(sentence-end-double-space nil)
  '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
  '(shell-pop-universal-key "C-c t")
+ '(sp-autodelete-closing-pair nil)
+ '(sp-autodelete-opening-pair nil)
+ '(sp-autodelete-pair nil)
+ '(sp-autodelete-wrap nil)
  '(sp-autoinsert-pair nil)
+ '(sp-autoskip-closing-pair nil)
  '(sunshine-location "Hannover, Germany")
  '(sunshine-units (quote metric))
  '(tool-bar-mode nil)
@@ -169,6 +174,8 @@
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 (global-set-key (kbd "C-x C-0") 'delete-window)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
+(global-set-key (kbd "M-n") 'next-error)
+(global-set-key (kbd "M-p") 'previous-error)
 
 (use-package avy
 ;  :bind ("C-." . avy-goto-word-or-subword-1)
@@ -545,3 +552,17 @@
 (use-package better-shell
   :config
   (global-set-key (kbd "C-'") (lambda () (interactive) (better-shell-shell 4))))
+
+(defun my-set-eww-buffer-title ()
+  (let* ((title  (plist-get eww-data :title))
+         (url    (plist-get eww-data :url))
+         (result (concat "*eww-" (or title
+                              (if (string-match "://" url)
+                                  (substring url (match-beginning 0))
+                                url)) "*")))
+    (rename-buffer result t)))
+
+(add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
+
+(define-key eww-mode-map (kbd "H") 'eww-back-url)
+(define-key eww-mode-map (kbd "H") 'eww-forward-url)
