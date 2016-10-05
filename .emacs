@@ -54,6 +54,7 @@
  '(ido-vertical-disable-if-short nil)
  '(inhibit-startup-screen t)
  '(mouse-wheel-progressive-speed nil)
+ '(mouse-yank-at-point t)
  '(mu4e-html2text-command "w3m -dump -T text/html")
  '(mu4e-view-show-images nil)
  '(newsticker-url-list
@@ -89,7 +90,7 @@
  '(org-trello-files (quote ("~/notes/trello.org")))
  '(package-selected-packages
    (quote
-    (vlf restclient vdiff better-shell org-pomodoro elfeed jenkins auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
+    (ox-reveal yaml-mode vdiff better-shell org-pomodoro elfeed jenkins auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
  '(safe-local-variable-values
    (quote
     ((cmake-ide-dir . "/home/philipp/Programming/openstryker/level_reader/build")
@@ -566,3 +567,4 @@
 
 (define-key eww-mode-map (kbd "H") 'eww-back-url)
 (define-key eww-mode-map (kbd "H") 'eww-forward-url)
+
