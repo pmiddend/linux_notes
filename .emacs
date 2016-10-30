@@ -25,6 +25,7 @@
    (quote
     ("e80932ca56b0f109f8545576531d3fc79487ca35a9a9693b62bf30d6d08c9aaf" "b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
  '(dired-dwim-target t)
+ '(dired-listing-switches "-alh  --group-directories-first")
  '(display-time-default-load-average nil)
  '(elfeed-feeds
    (quote
@@ -76,7 +77,7 @@
  '(org-clock-into-drawer t)
  '(org-confirm-babel-evaluate nil)
  '(org-drill-add-random-noise-to-intervals-p t)
- '(org-drill-learn-fraction 0.3)
+ '(org-drill-learn-fraction 0.2)
  '(org-drill-leech-method (quote warn))
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
@@ -90,7 +91,7 @@
  '(org-trello-files (quote ("~/notes/trello.org")))
  '(package-selected-packages
    (quote
-    (ox-reveal yaml-mode vdiff better-shell org-pomodoro elfeed jenkins auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
+    (dired-open dired-filetype-face dired-icon visual-fill-column wolfram haskell-emacs org-alert weechat-alert sauron ox-reveal yaml-mode vdiff better-shell org-pomodoro elfeed jenkins auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
  '(safe-local-variable-values
    (quote
     ((cmake-ide-dir . "/home/philipp/Programming/openstryker/level_reader/build")
@@ -568,3 +569,10 @@
 (define-key eww-mode-map (kbd "H") 'eww-back-url)
 (define-key eww-mode-map (kbd "H") 'eww-forward-url)
 
+(use-package dired-icon
+  :config
+  (add-hook 'dired-mode-hook 'dired-icon-mode))
+
+(use-package dired-filetype-face
+:init
+(require 'dired-filetype-face))
