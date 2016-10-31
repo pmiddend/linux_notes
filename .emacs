@@ -46,6 +46,7 @@
      (60 . evil-surround-read-tag)
      (102 . evil-surround-function))))
  '(explicit-shell-file-name "/bin/bash")
+ '(fill-column 90)
  '(flycheck-clang-language-standard "c++11")
  '(flycheck-cppcheck-language-standard "-std=c++11")
  '(flycheck-gcc-language-standard "c++11")
@@ -74,6 +75,7 @@
  '(org-agenda-span 14)
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t))))
  '(org-clock-into-drawer t)
  '(org-confirm-babel-evaluate nil)
  '(org-drill-add-random-noise-to-intervals-p t)
@@ -309,10 +311,6 @@
 (setq rng-nxml-auto-validate-flag nil)
 
 (load "~/.emacs.d/personal-init")
-
-(use-package smartparens
-  :config (smartparens-global-mode t)
-  :diminish smartparens-mode)
 
 ; klappt mit circe nicht.
 ;(use-package powerline
@@ -576,3 +574,16 @@
 (use-package dired-filetype-face
 :init
 (require 'dired-filetype-face))
+(require 'midnight)
+
+(use-package visual-fill-column
+  :ensure t
+  :defer t
+  ;; :bind (("C-c t v" . visual-fill-column-mode))
+  :init
+  (dolist (hook '(visual-line-mode-hook
+                  prog-mode-hook
+                  text-mode-hook))
+    (add-hook hook #'visual-fill-column-mode))
+  :config (setq-default visual-fill-column-center-text t
+                        visual-fill-column-fringes-outside-margins nil))
