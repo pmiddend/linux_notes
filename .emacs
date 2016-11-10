@@ -55,6 +55,7 @@
  '(ido-use-virtual-buffers t)
  '(ido-vertical-disable-if-short nil)
  '(inhibit-startup-screen t)
+ '(ispell-dictionary "de_DE")
  '(mouse-wheel-progressive-speed nil)
  '(mouse-yank-at-point t)
  '(mu4e-html2text-command "w3m -dump -T text/html")
@@ -129,11 +130,13 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(
+			 ("org" . "http://orgmode.org/elpa/")
 ("gnu" . "http://elpa.gnu.org/packages/")
 ("marmalade" . "http://marmalade-repo.org/packages/")
 ("melpa" . "http://melpa.org/packages/")))
 
 (package-initialize)
+(require 'org)
 
 
 ;; Bootstrap `use-package'
@@ -199,7 +202,7 @@
 ;(require 'org-rtm)
 
 (use-package org
-  :load-path ("~/org-mode/lisp" "~/org-mode/contrib/lisp")
+;  :load-path ("~/org-mode/lisp" "~/org-mode/contrib/lisp")
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
   (setq org-clock-into-drawer t)
@@ -244,10 +247,10 @@
   :bind ("\C-ca" . org-agenda)
   :bind ("\C-cc" . org-capture))
 
-(use-package simpleclip
-  :bind ("s-y" . simpleclip-paste)
-  :config
-  (simpleclip-mode 1))
+;(use-package simpleclip
+;  :bind ("s-y" . simpleclip-paste)
+;  :config
+;  (simpleclip-mode 1))
 
 (setq backup-directory-alist
           `((".*" . ,temporary-file-directory)))
@@ -281,23 +284,23 @@
   :config
   (add-hook 'eww-mode-hook (lambda () (define-key eww-mode-map "f" 'eww-lnum-follow))))
 
-(use-package hydra)
+;(use-package hydra)
 
-(defhydra hydra-window (global-map "C-c w" :color red :hint nil)
-    "
-    Windows: _u_ndo  _r_edo _x_ill _n_ext _p_revious"
-    ("h" windmove-left)
-    ("j" windmove-down)
-    ("k" windmove-up)
-    ("l" windmove-right)
-    ("u" winner-undo)
-    ("r" winner-redo)
-    ("0" delete-window)
-    ("2" split-window-below)
-    ("3" split-window-right)
-    ("n" next-buffer)
-    ("p" previous-buffer)
-    ("x" kill-this-buffer))
+;(defhydra hydra-window (global-map "C-c w" :color red :hint nil)
+;    "
+;    Windows: _u_ndo  _r_edo _x_ill _n_ext _p_revious"
+;    ("h" windmove-left)
+;    ("j" windmove-down)
+;    ("k" windmove-up)
+;    ("l" windmove-right)
+;    ("u" winner-undo)
+;    ("r" winner-redo)
+;    ("0" delete-window)
+;    ("2" split-window-below)
+;    ("3" split-window-right)
+;    ("n" next-buffer)
+;    ("p" previous-buffer)
+;    ("x" kill-this-buffer))
 
 (winner-mode)
 
@@ -320,11 +323,12 @@
 (use-package evil
   :init
   (require 'ffap)
+  (setq evil-default-state 'emacs)
   (evil-mode 1)
-  (evil-set-initial-state 'term-mode 'emacs)
-  (evil-set-initial-state 'eshell-mode 'emacs)
-  (evil-set-initial-state 'pdf-view-mode 'emacs)
-  (evil-set-initial-state 'circe-mode 'emacs)
+  ;; (evil-set-initial-state 'term-mode 'emacs)
+  ;; (evil-set-initial-state 'eshell-mode 'emacs)
+  ;; (evil-set-initial-state 'pdf-view-mode 'emacs)
+  ;; (evil-set-initial-state 'circe-mode 'emacs)
 ;  (evil-define-state emacs
 ;    "Emacs state that can be exited with the escape key."
 ;    :tag " <EE> "
@@ -340,10 +344,10 @@
 ;  (evil-set-initial-state 'fundamental-mode 'emacs)
 ;  (evil-set-initial-state 'prog-mode 'emacs)
 					;  (evil-set-initial-state 'text-mode 'emacs))
-  (evil-set-initial-state 'git-commit-mode 'emacs)
-  (evil-set-initial-state 'weechat-mode 'emacs)
-  (evil-set-initial-state 'shell-mode 'emacs)
-  (evil-set-initial-state 'dired-mode 'emacs)
+  ;; (evil-set-initial-state 'git-commit-mode 'emacs)
+  ;; (evil-set-initial-state 'weechat-mode 'emacs)
+  ;; (evil-set-initial-state 'shell-mode 'emacs)
+  ;; (evil-set-initial-state 'dired-mode 'emacs)
 )
 
 (use-package evil-escape
@@ -362,7 +366,7 @@
   (evil-leader/set-key
    "fs" 'save-buffer
    "<tab>" 'switch-to-previous-buffer
-   "s" 'eshell
+;   "s" 'eshell
    "<SPC>" 'avy-goto-word-or-subword-1))
 
 (use-package evil-surround
@@ -407,7 +411,7 @@
   (add-to-list 'org-file-apps '("\\.pdf\\'" . org-pdfview-open))
   (add-to-list 'org-file-apps '("\\.pdf::\\([[:digit:]]+\\)\\'" . org-pdfview-open)))
 
-(use-package gist)
+;(use-package gist)
 
 (use-package ido-vertical-mode
   :config
@@ -449,11 +453,11 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(use-package projectile
-  :init
-  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
-  :config
-  (add-hook 'c-mode-common-hook 'projectile-mode))
+;(use-package projectile
+;  :init
+;  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
+;  :config
+;  (add-hook 'c-mode-common-hook 'projectile-mode))
 
 
 (use-package popwin
@@ -462,28 +466,28 @@
 
 (use-package dictcc)
 
-(use-package weather-metno
-  :init
-  (setq
-      weather-metno-location-name "Hannover, Germany"
-      weather-metno-location-latitude 52
-      weather-metno-location-longitude 9))
+;(use-package weather-metno
+;  :init
+;  (setq
+;      weather-metno-location-name "Hannover, Germany"
+;      weather-metno-location-latitude 52
+;      weather-metno-location-longitude 9))
 
 (use-package nyan-mode
   :config
   (nyan-mode))
 
-(use-package company-emoji
-  :config
-  (add-to-list 'company-backends 'company-emoji)
-  (set-fontset-font
-   t 'symbol
-   (font-spec :family "Symbola") nil 'prepend))
+;(use-package company-emoji
+;  :config
+;  (add-to-list 'company-backends 'company-emoji)
+;  (set-fontset-font
+;   t 'symbol
+;   (font-spec :family "Symbola") nil 'prepend))
 
-(use-package link-hint
-  :bind
-  ("C-c o o" . link-hint-open-link)
-  ("C-c o c" . link-hint-copy-link))
+;(use-package link-hint
+;  :bind
+;  ("C-c o o" . link-hint-open-link)
+;  ("C-c o c" . link-hint-copy-link))
 
 (setq solar-n-hemi-seasons
       '("Frühlingsanfang" "Sommeranfang" "Herbstanfang" "Winteranfang"))
@@ -534,20 +538,20 @@
 ; Scripts automatisch ausführbar machen beim Speichern
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-(use-package volatile-highlights
-  :config
-  (volatile-highlights-mode t))
+;(use-package volatile-highlights
+;  :config
+;  (volatile-highlights-mode t))
 
-(use-package wttrin
-  :init
-  (setq wttrin-default-cities '("Hannover")))
+;(use-package wttrin
+;  :init
+;  (setq wttrin-default-cities '("Hannover")))
 
-(use-package calfw
-  :init
-  (require 'calfw-org))
-(use-package ace-link
-  :init (ace-link-setup-default)
-  (define-key org-mode-map (kbd "M-o") 'ace-link-org))
+;(use-package calfw
+;  :init
+;  (require 'calfw-org))
+;(use-package ace-link
+;  :init (ace-link-setup-default)
+;  (define-key org-mode-map (kbd "M-o") 'ace-link-org))
 
 (use-package better-shell
   :config
@@ -587,3 +591,35 @@
     (add-hook hook #'visual-fill-column-mode))
   :config (setq-default visual-fill-column-center-text t
                         visual-fill-column-fringes-outside-margins nil))
+
+;; Search/Replace with regex by default
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "M-%") 'query-replace-regexp)
+
+;; Auto start server
+(require 'server nil t)
+(use-package server
+  :if window-system
+  :init
+  (when (not (server-running-p server-name))
+    (server-start)))
+
+(setq-default bidi-display-reordering nil)
+
+(use-package dired-narrow
+  :ensure t
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow)))
+
+(use-package with-editor
+  :ensure t
+  :init
+  (progn
+    (add-hook 'shell-mode-hook  'with-editor-export-editor)
+    (add-hook 'eshell-mode-hook 'with-editor-export-editor)))
+
+(setenv "PAGER" "cat")
+
+(load "~/.emacs.d/personal-init")
+
