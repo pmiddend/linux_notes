@@ -46,7 +46,6 @@
      (60 . evil-surround-read-tag)
      (102 . evil-surround-function))))
  '(explicit-shell-file-name "/bin/bash")
- '(fill-column 90)
  '(flycheck-clang-language-standard "c++11")
  '(flycheck-cppcheck-language-standard "-std=c++11")
  '(flycheck-gcc-language-standard "c++11")
@@ -55,7 +54,6 @@
  '(ido-use-virtual-buffers t)
  '(ido-vertical-disable-if-short nil)
  '(inhibit-startup-screen t)
- '(ispell-dictionary "de_DE")
  '(mouse-wheel-progressive-speed nil)
  '(mouse-yank-at-point t)
  '(mu4e-html2text-command "w3m -dump -T text/html")
@@ -80,7 +78,7 @@
  '(org-clock-into-drawer t)
  '(org-confirm-babel-evaluate nil)
  '(org-drill-add-random-noise-to-intervals-p t)
- '(org-drill-learn-fraction 0.2)
+ '(org-drill-learn-fraction 0.15)
  '(org-drill-leech-method (quote warn))
  '(org-export-backends (quote (ascii beamer html icalendar latex)))
  '(org-extend-today-until 3)
@@ -138,6 +136,8 @@
 (package-initialize)
 (require 'org)
 
+; without this, the proper org mode is not loaded (perhaps, not sure)
+(require 'org)
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
@@ -148,34 +148,47 @@
 
 (setq use-package-always-ensure t)
 
-(use-package smex
+; Tried smex and counsel. counsel is faster
+(use-package counsel
+  :bind*
+  (("M-x" . counsel-M-x)))
+;(use-package smex
+;  :config
+;  (smex-initialize)
+;  :bind ("M-x" . smex)
+;  :bind ("M-X" . smex-major-mode-commands)
+;  :bind ("C-c C-c M-x" . execute-extended-command))
+
+(use-package ivy
   :config
-  (smex-initialize)
-  :bind ("M-x" . smex)
-  :bind ("M-X" . smex-major-mode-commands)
-  :bind ("C-c C-c M-x" . execute-extended-command))
+  (ivy-mode))
 
 (use-package magit
-  :bind ("<f7>" . magit-status))
+  :bind ("<f7>" . magit-status)
+  :config (setq magit-completing-read-function 'ivy-completing-read))
 
-(use-package ido
-  :bind ("<f12>" . ido-switch-buffer))
+(use-package swiper
+  :bind*
+  (("C-x C-f" . counsel-find-file)))
 
-(use-package ido-ubiquitous
-  :init
-  (setq ido-enable-flex-matching t)
-  (setq org-completion-use-ido t)
-  (setq magit-completing-read-function 'magit-ido-completing-read)
-  (setq ido-auto-merge-work-directories-length -1)
-  :config
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (ido-ubiquitous-mode 1)
-  (put 'dired-do-rename 'ido 'find-file)
-  (put 'dired-do-copy 'ido 'find-file)
-  )
+;(use-package ido
+;  :bind ("<f12>" . ido-switch-buffer))
 
-(use-package flx-ido)
+;(use-package ido-ubiquitous
+;  :init
+;  (setq ido-enable-flex-matching t)
+;  (setq org-completion-use-ido t)
+;  (setq magit-completing-read-function 'magit-ido-completing-read)
+;  (setq ido-auto-merge-work-directories-length -1)
+;  :config
+;  (ido-mode 1)
+;  (ido-everywhere 1)
+;  (ido-ubiquitous-mode 1)
+;  (put 'dired-do-rename 'ido 'find-file)
+;  (put 'dired-do-copy 'ido 'find-file)
+;  )
+
+;(use-package flx-ido)
 
 (global-set-key (kbd "C-x C-o") 'other-window)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
