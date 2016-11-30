@@ -1,3 +1,6 @@
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -27,9 +30,6 @@
  '(dired-dwim-target t)
  '(dired-listing-switches "-alh  --group-directories-first")
  '(display-time-default-load-average nil)
- '(elfeed-feeds
-   (quote
-    ("http://boingboing.net/feed" "http://boingboing.net/" "https://blog.fefe.de/rss.xml")))
  '(evil-surround-pairs-alist
    (quote
     ((40 "(" . ")")
@@ -58,19 +58,12 @@
  '(mouse-yank-at-point t)
  '(mu4e-html2text-command "w3m -dump -T text/html")
  '(mu4e-view-show-images nil)
- '(newsticker-url-list
-   (quote
-    (("planet emacs" "http://planet.emacsen.org/atom.xml" nil nil nil))))
- '(op/site-main-title "pmiddend's Blog")
- '(op/site-sub-title
-   "Stuff about Haskell, nutrition, learning and life in general")
  '(openwith-associations
    (quote
     (("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\|mkv\\)\\'" "mpv"
       (file))
      ("\\.\\(?:jp?g\\|png\\)\\'" "display"
       (file)))))
- '(org-agenda-files (quote ("~/notes/work.org" "~/notes/todo.org")))
  '(org-agenda-span 14)
  '(org-agenda-start-on-weekday nil)
  '(org-agenda-use-time-grid nil)
@@ -89,29 +82,16 @@
  '(org-log-done (quote time))
  '(org-lowest-priority 90)
  '(org-modules (quote (org-bbdb org-habit org-drill)))
- '(org-trello-files (quote ("~/notes/trello.org")))
- '(package-selected-packages
-   (quote
-    (dired-open dired-filetype-face dired-icon visual-fill-column wolfram haskell-emacs org-alert weechat-alert sauron ox-reveal yaml-mode vdiff better-shell org-pomodoro elfeed jenkins auctex-latexmk auctex math-symbol-lists ace-link fraktur-mode ac-emoji graphviz-dot-mode plantuml-mode circe-notifications circe jabber emamux ix pastebin twittering-mode exwm-x adoc-mode lyrics calfw wttrin volatile-highlights link-hint company-emoji nyan-mode weather-metno dictcc popwin projectile shell-pop w3m ido-vertical-mode gist org-pdfview pdf-tools org-cliplink org-bullets bbdb evil-surround evil-leader evil-escape evil smartparens psc-ide purescript-mode intero weechat cmake-ide yasnippet flycheck company-c-headers company rtags mu4e-alert org-page hydra eww-lnum zenburn-theme expand-region rainbow-delimiters simpleclip avy flx-ido ido-ubiquitous magit smex use-package)))
- '(safe-local-variable-values
-   (quote
-    ((cmake-ide-dir . "/home/philipp/Programming/openstryker/level_reader/build")
-     (cmake-ide-dir . "/home/philipp/Programming/openstryker/ega_reader/build")
-     (cmake-ide-dir . "/home/philipp/Programming/openstryker/cmp_unpacker/build"))))
  '(savehist-mode t)
  '(scroll-bar-mode nil)
  '(select-enable-primary t)
  '(sentence-end-double-space nil)
- '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
- '(shell-pop-universal-key "C-c t")
  '(sp-autodelete-closing-pair nil)
  '(sp-autodelete-opening-pair nil)
  '(sp-autodelete-pair nil)
  '(sp-autodelete-wrap nil)
  '(sp-autoinsert-pair nil)
  '(sp-autoskip-closing-pair nil)
- '(sunshine-location "Hannover, Germany")
- '(sunshine-units (quote metric))
  '(tool-bar-mode nil)
  '(use-dialog-box nil)
  '(w3m-search-default-engine "duckduckgo")
@@ -169,7 +149,13 @@
 
 (use-package swiper
   :bind*
-  (("C-x C-f" . counsel-find-file)))
+  (("C-x C-f" . counsel-find-file)
+   ("C-s" . swiper))
+  :config
+  (define-key swiper-map (kbd "C-.")
+  (lambda () (interactive) (insert (format "\\<%s\\>" (with-ivy-window (thing-at-point 'symbol))))))
+(define-key swiper-map (kbd "M-.")
+  (lambda () (interactive) (insert (format "\\<%s\\>" (with-ivy-window (thing-at-point 'word)))))))
 
 ;(use-package ido
 ;  :bind ("<f12>" . ido-switch-buffer))
@@ -597,17 +583,17 @@
   :ensure t
   :defer t
   ;; :bind (("C-c t v" . visual-fill-column-mode))
-  :init
+  :config
   (dolist (hook '(visual-line-mode-hook
                   prog-mode-hook
                   text-mode-hook))
     (add-hook hook #'visual-fill-column-mode))
-  :config (setq-default visual-fill-column-center-text t
-                        visual-fill-column-fringes-outside-margins nil))
+  :config (setq-default visual-fill-column-center-text t))
+;                        Visual-Fill-Column-Fringes-Outside-Margins Nil))
 
-;; Search/Replace with regex by default
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+;; Search/Replace With Regex by default
+;(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+;(global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
 
 ;; Auto start server
@@ -635,4 +621,3 @@
 (setenv "PAGER" "cat")
 
 (load "~/.emacs.d/personal-init")
-
