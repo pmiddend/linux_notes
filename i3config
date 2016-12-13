@@ -45,7 +45,7 @@ bindsym $mod+k focus up
 bindsym $mod+b exec firefox
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: ' 
 bindsym $mod+l focus right
-bindsym $mod+m exec "/home/philipp/switch_inputs"
+#bindsym $mod+m exec "/home/philipp/switch_inputs"
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left

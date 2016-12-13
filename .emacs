@@ -246,6 +246,9 @@
   :bind ("\C-ca" . org-agenda)
   :bind ("\C-cc" . org-capture))
 
+; necessary for org-drill
+(use-package org-plus-contrib)
+
 ;(use-package simpleclip
 ;  :bind ("s-y" . simpleclip-paste)
 ;  :config
